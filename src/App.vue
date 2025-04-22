@@ -85,17 +85,30 @@ const produtos = [
             </header>
             
             <main>
+
+              <section class="principal">
+                <div class="texto">
+                  <p class="autor">Autor de Abril</p>
+                  <h2>Eric-Emanuel Schmitt</h2>
+                  <p>Eric-Emmanuel Schmitt has been awarded more than 20 literary prizes and distinctions, and in 2001 he received the title of Chevalier des Arts et des Lettres. His books have been translated into over 40 languages.</p>
+                  <p>Acessar página do livro</p>
+                </div>
+                <div>
+                  <p><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
+                  <p>*within the stock limit</p>
+                </div>
+              </section>
             
-                <section class="lancamentos">
-                    <h2>Lançamentos</h2>
-                    <ul>
-                      <li v-for="produto in produtos" :key="produto.id"> 
-                        <p>{{ produto.titulo }}</p>
-                        <p>{{ produto.autor }}</p>
-                        <p>R${{ produto.preco }}</p>
-                      </li>
-                    </ul>
-                </section>
+              <section class="lancamentos">
+                <h2>Lançamentos</h2>
+                <ul>
+                  <li v-for="produto in produtos" :key="produto.id"> 
+                    <p>{{ produto.titulo }}</p>
+                    <p>{{ produto.autor }}</p>
+                    <p>R${{ produto.preco }}</p>
+                  </li>
+                </ul>
+              </section>
         </main>
     </body>
 </template>
@@ -172,5 +185,24 @@ const produtos = [
       padding: 0 25px;
     }
 /*FIM DO STYLE HEADER*/
+
+/*STYLE DA SECTION PRINCIPAL*/
+    section.principal {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: solid 1px #27AE60;
+      align-items: center;
+    }
+    section.principal div.texto {
+      width: 50%;
+      margin: 0 0 0 10vw;
+    }
+    section.principal div.texto p.autor {
+      border: solid 1px #27AE60;
+      color: #27AE60;
+      padding: 8px;
+      width: 11%;
+    }
+/*FIM DO STYLE DA SECTION PRINCIPAL*/
 
 </style>
