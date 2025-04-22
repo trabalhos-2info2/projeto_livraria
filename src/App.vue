@@ -82,7 +82,22 @@ const produtos = [
                   <li><span class="fa-solid fa-user"></span></li>
                 </ul>
             </header>
-             <main>
+        
+            <main>
+
+              <section class="principal">
+                <div class="texto">
+                  <p class="autor">Autor de Abril</p>
+                  <h2>Eric-Emanuel Schmitt</h2>
+                  <p>Eric-Emmanuel Schmitt has been awarded more than 20 literary prizes and distinctions, and in 2001 he received the title of Chevalier des Arts et des Lettres. His books have been translated into over 40 languages.</p>
+                  <p>Acessar página do livro</p>
+                </div>
+                <div>
+                  <p><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
+                  <p>*within the stock limit</p>
+                </div>
+              </section>
+        
       <section class="lancamentos">
         <h2>Lançamentos</h2>
         <ul>
@@ -239,5 +254,23 @@ const produtos = [
   border-radius: 1px;
 
 }
+
+/*PRINCIPAL*/
+    section.principal {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: solid 1px #27AE60;
+      align-items: center;
+    }
+    section.principal div.texto {
+      width: 50%;
+      margin: 0 0 0 10vw;
+    }
+    section.principal div.texto p.autor {
+      border: solid 1px #27AE60;
+      color: #27AE60;
+      padding: 8px;
+      width: 11%;
+    }
 
 </style>
