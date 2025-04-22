@@ -63,18 +63,24 @@ const produtos = [
 <template>
     <body>
          <header>
-             <div class="logo">
+              <div class="logo">
                   <h1>IFBooks</h1>
                   <h2>Apreço a leitura</h2>
-             </div>
-             <div class="pesquisa">
-                  <p>Pesquisar</p>
               </div>
-                <ul>
+              <div class="pesquisa">
+                  <p>Pesquisar</p>
+                  <p class="icone"><span class="fa-solid fa-magnifying-glass"></span></p>
+              </div>
+                <ul class="menu">
                     <li>Termos</li>
                     <li>Equipe</li>
                     <li>Envio</li>
                     <li>Devoluções</li>
+                </ul>
+                <ul>
+                  <li><span class="fa-solid fa-cart-shopping"></span></li>
+                  <li class="borda"><span class="fa-solid fa-heart"></span></li>
+                  <li><span class="fa-solid fa-user"></span></li>
                 </ul>
             </header>
             
@@ -95,39 +101,76 @@ const produtos = [
 </template>
 
 <style scoped>
+
+/*STYLE HEADER*/
     header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: 0 10vw;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0 15px 0;
+      border-bottom: solid 1px #27AE60;
+      align-items: center;
     }
     header div.logo {
-        display: flex;
-        align-items: center;
-        width: 10%;
+      display: flex;
+      align-items: center;
+      width: 9%;
+      margin: 0 0 0 10vw;
     }
     header div.logo h1 {
-        font-size: 1rem;
-        font-weight: normal;
-        color: #231F2D;
-        padding: 0 5px 0 0;
-        border-right: 2px solid #27AE60;
+      font-size: 1.2rem;
+      font-weight: normal;
+      color: #231F2D;
+      padding: 0 5px 0 0;
+      border-right: 2px solid #27AE60;
     }
     header div.logo h2 {
-        font-size: 0.8rem;
-        color: #27AE60;
-        font-weight: normal;
-        padding: 0 0 0 5px;
-        flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: #27AE60;
+      font-weight: normal;
+      padding: 0 0 0 5px;
+      flex-wrap: wrap;
     }
-
     header div.pesquisa {
-        padding: 0 10vw;
-        background-color: #B8B8B8;
+      padding: 0 10px 0 0;
+      background-color: #F1F1F1;
+      width: 30%;
+      display: flex;
+      justify-content: space-between;
     }
     header div.pesquisa p {
-        font-size: 1rem;
-        text-align: left;
+      font-size: 1rem;
+      color: #B8B8B8;
+      text-align: left;
+      padding: 0 0 0 10px;
     }
+    header div.pesquisa p.icone {
+      color: #231F2D;
+    }
+    header ul.menu {
+      display: flex;
+      justify-content: space-between;
+      width: 25%;
+      margin: 0 2vw 0 2vw;
+    }
+    header ul.menu li {
+      color: #7B7881;
+      list-style: none;
+    }
+    header ul {
+      display: flex;
+      justify-content: space-between;
+      width: 10%;
+      margin: 0 10vw 0 0;
+    }
+    header ul li {
+      color: #27AE60;
+      list-style: none;
+    }
+    header ul li.borda {
+      border-left: solid 1px #27AE60;
+      border-right: solid 1px #27AE60;
+      padding: 0 25px;
+    }
+/*FIM DO STYLE HEADER*/
 
 </style>
