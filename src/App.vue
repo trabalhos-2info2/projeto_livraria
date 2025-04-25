@@ -86,16 +86,36 @@ const produtos = [
             <main>
 
               <section class="principal">
-                <div class="texto">
-                  <p class="autor">Autor de Abril</p>
-                  <h2>Eric-Emanuel Schmitt</h2>
-                  <p>Eric-Emmanuel Schmitt has been awarded more than 20 literary prizes and distinctions, and in 2001 he received the title of Chevalier des Arts et des Lettres. His books have been translated into over 40 languages.</p>
-                  <p>Acessar página do livro</p>
+                <div class="dividir">
+                    <div class="texto">
+                      <p class="autor">Autor de Abril</p>
+                      <h2>Eric-Emanuel Schmitt</h2>
+                      <p class="texto">Eric-Emmanuel Schmitt has been awarded more than 20 literary prizes and distinctions, and in 2001 he received the title of Chevalier des Arts et des Lettres. His books have been translated into over 40 languages.</p>
+                      <p class="botao">Acessar página do livro</p>
+                    </div>
+                    <div>
+                      <p><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
+                      <p>*within the stock limit</p>
+                    </div>
                 </div>
-                <div>
-                  <p><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
-                  <p>*within the stock limit</p>
+
+                <div class="lista">
+                  <ul>
+                    <li>
+                      <p><span class="fa-solid fa-truck"></span></p>
+                      <p>Frete grátis para SC</p>
+                    </li>
+                    <li class="borda">
+                      <p><span class="fa-solid fa-star"></span></p>
+                      <p>Livros recomendados</p>
+                    </li>
+                    <li>
+                      <p><span class="fa-solid fa-book-open"></span></p>
+                      <p class="underline">Mais vendidos</p>
+                    </li>
+                  </ul>
                 </div>
+
               </section>
         
       <section class="lancamentos">
@@ -257,20 +277,65 @@ const produtos = [
 
 /*PRINCIPAL*/
     section.principal {
+      border-bottom: solid 1px #27AE60;
+    }
+    section.principal div.dividir {
       display: flex;
       justify-content: space-between;
-      border-bottom: solid 1px #27AE60;
       align-items: center;
+      margin: 0 12vw;
     }
     section.principal div.texto {
       width: 50%;
-      margin: 0 0 0 10vw;
     }
-    section.principal div.texto p.autor {
+    section.principal div.dividir div.texto p.autor {
       border: solid 1px #27AE60;
       color: #27AE60;
       padding: 8px;
-      width: 11%;
+      width: 14%;
+    }
+    section.principal div.dividir div.texto h2 {
+      font-size: 3.5rem;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    section.principal div.dividir div.texto p.texto {
+      font-size: 1.3rem;
+      color: #4D4C4C;
+      width: 74%;
+      margin: 0 0 3vw 0;
+    }
+    section.principal div.dividir div.texto p.botao {
+      color: white;
+      background-color: #27AE60;
+      padding: 1vw 2vw;
+      width: 29%;
+    }
+
+    section.principal div.lista {
+      border-top: solid 1px #27AE60;
+    }
+    section.principal div.lista ul {
+      display: flex;
+      justify-content: space-between;
+      margin: 3vw 8vw ;
+      list-style: none;
+    }
+    section.principal div.lista ul li {
+      font-size: 1.7rem;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: space-between;
+    }
+    section.principal div.lista ul li.borda {
+      border-left: solid 1px #937DC2;
+      border-right: solid 1px #937DC2;
+      padding: 0 8vw;
+    }
+    section.principal div.lista ul li p.underline {
+      text-decoration: underline;
+    }
+    section.principal div.lista ul li p {
+      padding: 0 10px;
     }
 
 </style>
