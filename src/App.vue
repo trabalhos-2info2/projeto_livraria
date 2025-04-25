@@ -71,10 +71,10 @@ const produtos = [
                   <p class="icone"><span class="fa-solid fa-magnifying-glass"></span></p>
               </div>
                 <ul class="menu">
-                    <li>Termos</li>
-                    <li>Equipe</li>
-                    <li>Envio</li>
-                    <li>Devoluções</li>
+                    <li><a href="#">Termos</a></li>
+                    <li><a href="#">Equipe</a></li>
+                    <li><a href="#">Envio</a></li>
+                    <li><a href="#">Devoluções</a></li>
                 </ul>
                 <ul>
                   <li><span class="fa-solid fa-cart-shopping"></span></li>
@@ -91,11 +91,11 @@ const produtos = [
                       <p class="autor">Autor de Abril</p>
                       <h2>Eric-Emanuel Schmitt</h2>
                       <p class="texto">Eric-Emmanuel Schmitt has been awarded more than 20 literary prizes and distinctions, and in 2001 he received the title of Chevalier des Arts et des Lettres. His books have been translated into over 40 languages.</p>
-                      <p class="botao">Acessar página do livro</p>
+                      <button>Acessar página do livro</button>
                     </div>
-                    <div>
-                      <p><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
-                      <p>*within the stock limit</p>
+                    <div class="imagem">
+                      <p class="img"><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
+                      <p class="texto">*within the stock limit</p>
                     </div>
                 </div>
 
@@ -191,8 +191,8 @@ const produtos = [
       width: 25%;
       margin: 0 2vw 0 2vw;
     }
-    header ul.menu li {
-      color: #7B7881;
+    header ul.menu li a:hover {
+      color: #7B7881; 
       list-style: none;
     }
     header ul {
@@ -304,11 +304,17 @@ const produtos = [
       width: 74%;
       margin: 0 0 3vw 0;
     }
-    section.principal div.dividir div.texto p.botao {
+    section.principal div.dividir div.texto button {
       color: white;
       background-color: #27AE60;
       padding: 1vw 2vw;
-      width: 29%;
+      font-size: 1rem;
+      border: none;
+    }
+
+    section.principal div.dividir div.imagem p.texto {
+      text-align: right;
+      color: #313131;
     }
 
     section.principal div.lista {
