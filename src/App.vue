@@ -60,64 +60,67 @@ const produtos = [
 </script>
 
 <template>
-    <body>
-         <header>
-              <div class="logo">
-                  <h1>IFBooks</h1>
-                  <h2>Apreço a leitura</h2>
-              </div>
-              <div class="pesquisa">
-                  <p>Pesquisar</p>
-                  <p class="icone"><span class="fa-solid fa-magnifying-glass"></span></p>
-              </div>
-                <ul class="menu">
-                    <li>Termos</li>
-                    <li>Equipe</li>
-                    <li>Envio</li>
-                    <li>Devoluções</li>
-                </ul>
-                <ul>
-                  <li><span class="fa-solid fa-cart-shopping"></span></li>
-                  <li class="borda"><span class="fa-solid fa-heart"></span></li>
-                  <li><span class="fa-solid fa-user"></span></li>
-                </ul>
-            </header>
-        
-            <main>
 
-              <section class="principal">
-                <div class="dividir">
-                    <div class="texto">
-                      <p class="autor">Autor de Abril</p>
-                      <h2>Eric-Emanuel Schmitt</h2>
-                      <p class="texto">Eric-Emmanuel Schmitt has been awarded more than 20 literary prizes and distinctions, and in 2001 he received the title of Chevalier des Arts et des Lettres. His books have been translated into over 40 languages.</p>
-                      <p class="botao">Acessar página do livro</p>
-                    </div>
-                    <div>
-                      <p><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
-                      <p>*within the stock limit</p>
-                    </div>
-                </div>
+  <body>
+    <header>
+      <div class="logo">
+        <h1>IFBooks</h1>
+        <h2>Apreço a leitura</h2>
+      </div>
+      <div class="pesquisa">
+        <p>Pesquisar</p>
+        <p class="icone"><span class="fa-solid fa-magnifying-glass"></span></p>
+      </div>
+      <ul class="menu">
+        <li>Termos</li>
+        <li>Equipe</li>
+        <li>Envio</li>
+        <li>Devoluções</li>
+      </ul>
+      <ul>
+        <li><span class="fa-solid fa-cart-shopping"></span></li>
+        <li class="borda"><span class="fa-solid fa-heart"></span></li>
+        <li><span class="fa-solid fa-user"></span></li>
+      </ul>
+    </header>
 
-                <div class="lista">
-                  <ul>
-                    <li>
-                      <p><span class="fa-solid fa-truck"></span></p>
-                      <p>Frete grátis para SC</p>
-                    </li>
-                    <li class="borda">
-                      <p><span class="fa-solid fa-star"></span></p>
-                      <p>Livros recomendados</p>
-                    </li>
-                    <li>
-                      <p><span class="fa-solid fa-book-open"></span></p>
-                      <p class="underline">Mais vendidos</p>
-                    </li>
-                  </ul>
-                </div>
+    <main>
 
-              </section>
-        
+      <section class="principal">
+        <div class="dividir">
+          <div class="texto">
+            <p class="autor">Autor de Abril</p>
+            <h2>Eric-Emanuel Schmitt</h2>
+            <p class="texto">Eric-Emmanuel Schmitt has been awarded more than 20 literary prizes and distinctions, and
+              in 2001 he received the title of Chevalier des Arts et des Lettres. His books have been translated into
+              over 40 languages.</p>
+            <p class="botao">Acessar página do livro</p>
+          </div>
+          <div>
+            <p><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
+            <p>*within the stock limit</p>
+          </div>
+        </div>
+
+        <div class="lista">
+          <ul>
+            <li>
+              <p><span class="fa-solid fa-truck"></span></p>
+              <p>Frete grátis para SC</p>
+            </li>
+            <li class="borda">
+              <p><span class="fa-solid fa-star"></span></p>
+              <p>Livros recomendados</p>
+            </li>
+            <li>
+              <p><span class="fa-solid fa-book-open"></span></p>
+              <p class="underline">Mais vendidos</p>
+            </li>
+          </ul>
+        </div>
+
+      </section>
+
       <section class="lancamentos">
         <h2>Lançamentos</h2>
         <ul>
@@ -127,89 +130,129 @@ const produtos = [
             <p>{{ produto.autor }}</p>
             <div>
               <p class="preco">R${{ produto.preco }}</p>
-              <p class="coracao"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="currentColor"
-                    d="m12.1 18.55l-.1.1l-.11-.1C7.14 14.24 4 11.39 4 8.5C4 6.5 5.5 5 7.5 5c1.54 0 3.04 1 3.57 2.36h1.86C13.46 6 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5c0 2.89-3.14 5.74-7.9 10.05M16.5 3c-1.74 0-3.41.81-4.5 2.08C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.41 2 8.5c0 3.77 3.4 6.86 8.55 11.53L12 21.35l1.45-1.32C18.6 15.36 22 12.27 22 8.5C22 5.41 19.58 3 16.5 3" />
-                </svg></p>
+              <p class="coracao"><i class="fa-regular fa-heart"></i></p>
             </div>
             <button><span class="fa-solid fa-cart-shopping"></span> Comprar</button>
           </li>
         </ul>
       </section>
     </main>
-    </body>
+    <footer>
+      <div class="maior">
+      <div>
+        <p class="ifbooks">IFbooks</p>
+        <ul>
+          <li><a href="https://facebook.com.br"><span class="fa-brands fa-square-facebook"></span></a></li>
+          <li><a href="https://instagram.com.br"><span class="fa-brands fa-square-instagram"></span></a></li>
+          <li><a href="https://twitter.com.br"><span class="fa-brands fa-square-twitter"></span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contato</h3>        
+        <ul class="contato">
+          <li><p><span class="fa-solid fa-phone"></span> +55 47 40045263</p></li>
+          <li><p><span class="fa-solid fa-clock"></span> 8h às 23h - Seg a Sex</p></li>
+          <li><p><span class="fa-solid fa-envelope"></span> contato@ifbooks.com</p></li>
+        </ul>
+        <ul class="pagamentos">
+          <li>
+            <img src="\src\paypal-card-logo.png" alt="Paypal">
+          </li>
+          <li>
+            <img src="\src\masterCard-logo.png" alt="MasterCard">
+          </li>
+          <li>
+            <img src="\src\visa-card-logo.png" alt="Visa">
+          </li>
+        </ul>
+      </div>
+    </div>
+      <p class="direitos">© Alguns direitos reservados. IFbooks 2025. </p>
+    </footer>
+  </body>
 </template>
 
 <style scoped>
 /*HEADER*/
-    header {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 0 15px 0;
-      border-bottom: solid 1px #27AE60;
-      align-items: center;
-    }
-    header div.logo {
-      display: flex;
-      align-items: center;
-      width: 9%;
-      margin: 0 0 0 10vw;
-    }
-    header div.logo h1 {
-      font-size: 1.2rem;
-      font-weight: normal;
-      color: #231F2D;
-      padding: 0 5px 0 0;
-      border-right: 2px solid #27AE60;
-    }
-    header div.logo h2 {
-      font-size: 0.8rem;
-      color: #27AE60;
-      font-weight: normal;
-      padding: 0 0 0 5px;
-      flex-wrap: wrap;
-    }
-    header div.pesquisa {
-      padding: 0 10px 0 0;
-      background-color: #F1F1F1;
-      width: 30%;
-      display: flex;
-      justify-content: space-between;
-    }
-    header div.pesquisa p {
-      font-size: 1rem;
-      color: #B8B8B8;
-      text-align: left;
-      padding: 0 0 0 10px;
-    }
-    header div.pesquisa p.icone {
-      color: #231F2D;
-    }
-    header ul.menu {
-      display: flex;
-      justify-content: space-between;
-      width: 25%;
-      margin: 0 2vw 0 2vw;
-    }
-    header ul.menu li {
-      color: #7B7881;
-      list-style: none;
-    }
-    header ul {
-      display: flex;
-      justify-content: space-between;
-      width: 10%;
-      margin: 0 10vw 0 0;
-    }
-    header ul li {
-      color: #27AE60;
-      list-style: none;
-    }
-    header ul li.borda {
-      border-left: solid 1px #27AE60;
-      border-right: solid 1px #27AE60;
-      padding: 0 25px;
-    }
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 15px 0;
+  border-bottom: solid 1px #27AE60;
+  align-items: center;
+}
+
+header div.logo {
+  display: flex;
+  align-items: center;
+  width: 9%;
+  margin: 0 0 0 10vw;
+}
+
+header div.logo h1 {
+  font-size: 1.2rem;
+  font-weight: normal;
+  color: #231F2D;
+  padding: 0 5px 0 0;
+  border-right: 2px solid #27AE60;
+}
+
+header div.logo h2 {
+  font-size: 0.8rem;
+  color: #27AE60;
+  font-weight: normal;
+  padding: 0 0 0 5px;
+  flex-wrap: wrap;
+}
+
+header div.pesquisa {
+  padding: 0 10px 0 0;
+  background-color: #F1F1F1;
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+header div.pesquisa p {
+  font-size: 1rem;
+  color: #B8B8B8;
+  text-align: left;
+  padding: 0 0 0 10px;
+}
+
+header div.pesquisa p.icone {
+  color: #231F2D;
+}
+
+header ul.menu {
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
+  margin: 0 2vw 0 2vw;
+}
+
+header ul.menu li {
+  color: #7B7881;
+  list-style: none;
+}
+
+header ul {
+  display: flex;
+  justify-content: space-between;
+  width: 10%;
+  margin: 0 10vw 0 0;
+}
+
+header ul li {
+  color: #27AE60;
+  list-style: none;
+}
+
+header ul li.borda {
+  border-left: solid 1px #27AE60;
+  border-right: solid 1px #27AE60;
+  padding: 0 25px;
+}
 
 /*LANÇAMENTOS*/
 .lancamentos {
@@ -219,7 +262,8 @@ const produtos = [
 
 .lancamentos h2 {
   font-weight: bold;
-  margin: 0 3vw;
+  font-size: 2vw;
+  margin: 5vw 3vw 0 3vw;
 }
 
 .lancamentos ul {
@@ -229,7 +273,7 @@ const produtos = [
 
 .lancamentos li {
   width: 20%;
-  margin: 3vw 1vw;
+  margin: 2vw 1vw 4vw 1vw;
   list-style: none;
   line-height: 0.7rem;
 }
@@ -256,11 +300,13 @@ const produtos = [
 .lancamentos .preco {
   font-weight: bold;
   color: black;
+  font-size: 1.1rem;
 
 }
 
 .lancamentos .coracao {
   color: #27AE60;
+  font-size: 1.2rem;
 }
 
 .lancamentos button {
@@ -276,66 +322,138 @@ const produtos = [
 }
 
 /*PRINCIPAL*/
-    section.principal {
-      border-bottom: solid 1px #27AE60;
-    }
-    section.principal div.dividir {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 0 12vw;
-    }
-    section.principal div.texto {
-      width: 50%;
-    }
-    section.principal div.dividir div.texto p.autor {
-      border: solid 1px #27AE60;
-      color: #27AE60;
-      padding: 8px;
-      width: 14%;
-    }
-    section.principal div.dividir div.texto h2 {
-      font-size: 3.5rem;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-    section.principal div.dividir div.texto p.texto {
-      font-size: 1.3rem;
-      color: #4D4C4C;
-      width: 74%;
-      margin: 0 0 3vw 0;
-    }
-    section.principal div.dividir div.texto p.botao {
-      color: white;
-      background-color: #27AE60;
-      padding: 1vw 2vw;
-      width: 29%;
-    }
+section.principal {
+  border-bottom: solid 1px #27AE60;
+}
 
-    section.principal div.lista {
-      border-top: solid 1px #27AE60;
-    }
-    section.principal div.lista ul {
-      display: flex;
-      justify-content: space-between;
-      margin: 3vw 8vw ;
-      list-style: none;
-    }
-    section.principal div.lista ul li {
-      font-size: 1.7rem;
-      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: space-between;
-    }
-    section.principal div.lista ul li.borda {
-      border-left: solid 1px #937DC2;
-      border-right: solid 1px #937DC2;
-      padding: 0 8vw;
-    }
-    section.principal div.lista ul li p.underline {
-      text-decoration: underline;
-    }
-    section.principal div.lista ul li p {
-      padding: 0 10px;
-    }
+section.principal div.dividir {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 12vw;
+}
+
+section.principal div.texto {
+  width: 50%;
+}
+
+section.principal div.dividir div.texto p.autor {
+  border: solid 1px #27AE60;
+  color: #27AE60;
+  padding: 8px;
+  width: 14%;
+}
+
+section.principal div.dividir div.texto h2 {
+  font-size: 3.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+section.principal div.dividir div.texto p.texto {
+  font-size: 1.3rem;
+  color: #4D4C4C;
+  width: 74%;
+  margin: 0 0 3vw 0;
+}
+
+section.principal div.dividir div.texto p.botao {
+  color: white;
+  background-color: #27AE60;
+  padding: 1vw 2vw;
+  width: 29%;
+}
+
+section.principal div.lista {
+  border-top: solid 1px #27AE60;
+}
+
+section.principal div.lista ul {
+  display: flex;
+  justify-content: space-between;
+  margin: 3vw 8vw;
+  list-style: none;
+}
+
+section.principal div.lista ul li {
+  font-size: 1.7rem;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+section.principal div.lista ul li.borda {
+  border-left: solid 1px #937DC2;
+  border-right: solid 1px #937DC2;
+  padding: 0 8vw;
+}
+
+section.principal div.lista ul li p.underline {
+  text-decoration: underline;
+}
+
+section.principal div.lista ul li p {
+  padding: 0 10px;
+}
+
+/*FOOTER*/
+footer {
+  background-color: #27AE60;
+  padding: 3vw 0 0 0;
+
+}
+.maior {
+  display: flex;
+  justify-content: space-between; 
+  margin: 0 10vw;
+}
+
+.ifbooks {
+  color: white;
+  margin: 0 3vw;
+  
+}
+footer div ul {
+  display: flex;
+  list-style: none;
+  width: 5%;
+  justify-content: space-between;
+}
+footer div ul li a {
+  color: white;
+  font-size: 2vw;
+  margin: 0.5vw;
+}
+
+footer h3 {
+  font-size: 1rem;
+  color: white;
+  margin: 0 2vw;
+
+}
+.contato {
+  display: block;
+  width: 100%;
+  line-height: 1.5rem;
+  margin: 0 0 4vw 0 ;
+  
+}
+
+.contato li  {
+  width: 100%;
+  color: white;
+}
+
+.pagamentos ul {
+  display: flex;
+  
+}
+
+.direitos {
+  text-align: center;
+  color: #FFFFFF;
+  opacity: 60%;
+  padding: 1vw;
+  border-top: solid 1px #FFFFFF ;
+}
 
 </style>
