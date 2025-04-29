@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from 'vue';
+
 const produtos = [
   {
     id: 1,
@@ -57,9 +59,12 @@ const produtos = [
     capa: '/src/book_lovers.png',
   },
 ];
+const booleano = ref(true);
+
 </script>
 
 <template>
+    
     <body>
          <header>
               <div class="logo">
@@ -77,15 +82,16 @@ const produtos = [
                     <li><a href="#">Devoluções</a></li>
                 </ul>
                 <ul>
-                  <li><span class="fa-solid fa-cart-shopping"></span></li>
+                  <li><button v-on:click="booleano = !booleano">
+                    <span class="fa-solid fa-cart-shopping"></span>
+                  </button></li>
                   <li class="borda"><span class="fa-solid fa-heart"></span></li>
                   <li><span class="fa-solid fa-user"></span></li>
                 </ul>
             </header>
         
             <main>
-
-              <section class="principal">
+              <section class="principal" v-if="booleano">
                 <div class="dividir">
                     <div class="texto">
                       <p class="autor">Autor de Abril</p>
@@ -117,7 +123,7 @@ const produtos = [
                 </div>
 
               </section>
-      <section class="lancamentos">
+      <section class="lancamentos"  v-if="booleano">
         <h2>Lançamentos</h2>
         <ul>
           <li v-for="produto in produtos" :key="produto.id">
@@ -131,6 +137,9 @@ const produtos = [
             <button><span class="fa-solid fa-cart-shopping"></span> Comprar</button>
           </li>
         </ul>
+      </section>
+      <section class="carrinho" v-else>
+        <h2>Carrinho</h2>
       </section>
     </main>
     <footer>
@@ -167,7 +176,7 @@ const produtos = [
     </footer>
   </body>
 </template>
-
+  
 <style scoped>
 /*HEADER*/
   header {
