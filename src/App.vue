@@ -60,12 +60,26 @@ const produtos = [
   },
 ];
 const booleano = ref(true);
+const carrinho = ref([]);
+const quantidade = ref(1);
+
+function adicionar() {
+  carrinho.value.push({produto, quantidade: quantidade.value});
+}
+function incrementar() {
+  quantidade.value++;
+}
+function decrementar() {
+  if (quantidade.value > 1) {
+    quantidade.value--;
+  }
+}
 
 </script>
 
 <template>
-    
-    <body>
+
+<body>
         <header>
             <nav>
               <div class="logo">
@@ -95,40 +109,43 @@ const booleano = ref(true);
                 </ul>
             </nav>
         </header>
-        
-            <main>
-              <section id="principal" class="principal" v-if="booleano">
-                <div class="dividir">
-                    <div class="texto">
-                      <p class="autor">Autor de Abril</p>
-                      <h2>Eric-Emanuel Schmitt</h2>
-                      <p class="texto">Eric-Emmanuel Schmitt has been awarded more than 20 literary prizes and distinctions, and in 2001 he received the title of Chevalier des Arts et des Lettres. His books have been translated into over 40 languages.</p>
-                      <button>Acessar página do livro</button>
-                    </div>
-                    <div class="imagem">
-                      <p class="img"><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
-                      <p class="texto">*within the stock limit</p>
-                    </div>
-                </div>
 
-                <div class="lista">
-                  <ul>
-                    <li>
-                      <p><span class="fa-solid fa-truck"></span></p>
-                      <p>Frete grátis para SC</p>
-                    </li>
-                    <li class="borda">
-                      <p><span class="fa-solid fa-star"></span></p>
-                      <p>Livros recomendados</p>
-                    </li>
-                    <li>
-                      <p><span class="fa-solid fa-book-open"></span></p>
-                      <p class="underline">Mais vendidos</p>
-                    </li>
-                  </ul>
-                </div>
-              </section>
-      <section class="lancamentos"  v-if="booleano">
+    <main>
+      <section id="principal" class="principal" v-if="booleano">
+        <div class="dividir">
+          <div class="texto">
+            <p class="autor">Autor de Abril</p>
+            <h2>Eric-Emanuel Schmitt</h2>
+            <p class="texto">Eric-Emmanuel Schmitt has been awarded more than 20 literary prizes and distinctions, and
+              in 2001 he received the title of Chevalier des Arts et des Lettres. His books have been translated into
+              over 40 languages.</p>
+            <button>Acessar página do livro</button>
+          </div>
+          <div class="imagem">
+            <p class="img"><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
+            <p class="texto">*within the stock limit</p>
+          </div>
+        </div>
+
+        <div class="lista">
+          <ul>
+            <li>
+              <p><span class="fa-solid fa-truck"></span></p>
+              <p>Frete grátis para SC</p>
+            </li>
+            <li class="borda">
+              <p><span class="fa-solid fa-star"></span></p>
+              <p>Livros recomendados</p>
+            </li>
+            <li>
+              <p><span class="fa-solid fa-book-open"></span></p>
+              <p class="underline">Mais vendidos</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+      
+      <section class="lancamentos" v-if="booleano">
         <h2>Lançamentos</h2>
         <ul>
           <li v-for="produto in produtos" :key="produto.id">
@@ -139,49 +156,84 @@ const booleano = ref(true);
               <p class="preco">R${{ produto.preco }}</p>
               <p class="coracao"><i class="fa-regular fa-heart"></i></p>
             </div>
-            <button><span class="fa-solid fa-cart-shopping"></span> Comprar</button>
+            <button v-on:click="adicionar(produto)">
+              <span class="fa-solid fa-cart-shopping"></span> Comprar
+            </button>
           </li>
         </ul>
       </section>
-      <section class="carrinho" v-else>
+      <section class="carrinho" id="cart" v-else>
         <h2>Carrinho</h2>
+        <div>
+          <ul class="subtitulos">
+            <li>
+              <p>Título</p>
+            </li>
+            <li>
+              <p>Quantidade</p>
+            </li>
+            <li>
+              <p>Subtotal</p>
+            </li>
+            </ul>
+            <ul>
+              <li v-for="produto in carrinho" :key="produto.id">
+                <div>
+                  <img :src="produto.capa" :alt="produto.titulo" />
+                </div>
+                <div>
+                  <h3>{{ produto.titulo }}</h3>
+                  <p>{{ produto.autor }}</p>
+                  <p class="preco">R${{ produto.preco }}</p>
+                </div>
+              </li>
+
+            </ul>
+          
+        </div>
       </section>
     </main>
     <footer>
       <div class="maior">
-      <div>
-        <p class="ifbooks">IFbooks</p>
-        <ul>
-          <li><a href="https://facebook.com.br"><span class="fa-brands fa-square-facebook"></span></a></li>
-          <li><a href="https://instagram.com.br"><span class="fa-brands fa-square-instagram"></span></a></li>
-          <li><a href="https://twitter.com.br"><span class="fa-brands fa-square-twitter"></span></a></li>
-        </ul>
+        <div>
+          <p class="ifbooks">IFbooks</p>
+          <ul>
+            <li><a href="https://facebook.com.br"><span class="fa-brands fa-square-facebook"></span></a></li>
+            <li><a href="https://instagram.com.br"><span class="fa-brands fa-square-instagram"></span></a></li>
+            <li><a href="https://twitter.com.br"><span class="fa-brands fa-square-twitter"></span></a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Contato</h3>
+          <ul class="contato">
+            <li>
+              <p><span class="fa-solid fa-phone"></span> +55 47 40045263</p>
+            </li>
+            <li>
+              <p><span class="fa-solid fa-clock"></span> 8h às 23h - Seg a Sex</p>
+            </li>
+            <li>
+              <p><span class="fa-solid fa-envelope"></span> contato@ifbooks.com</p>
+            </li>
+          </ul>
+          <ul class="pagamentos">
+            <li>
+              <img src="\src\paypal-card-logo.png" alt="Paypal">
+            </li>
+            <li>
+              <img src="\src\masterCard-logo.png" alt="MasterCard">
+            </li>
+            <li>
+              <img src="\src\visa-card-logo.png" alt="Visa">
+            </li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <h3>Contato</h3>        
-        <ul class="contato">
-          <li><p><span class="fa-solid fa-phone"></span> +55 47 40045263</p></li>
-          <li><p><span class="fa-solid fa-clock"></span> 8h às 23h - Seg a Sex</p></li>
-          <li><p><span class="fa-solid fa-envelope"></span> contato@ifbooks.com</p></li>
-        </ul>
-        <ul class="pagamentos">
-          <li>
-            <img src="\src\paypal-card-logo.png" alt="Paypal">
-          </li>
-          <li>
-            <img src="\src\masterCard-logo.png" alt="MasterCard">
-          </li>
-          <li>
-            <img src="\src\visa-card-logo.png" alt="Visa">
-          </li>
-        </ul>
-      </div>
-    </div>
       <p class="direitos">© Alguns direitos reservados. IFbooks 2025. </p>
     </footer>
   </body>
 </template>
-  
+
 <style scoped>
 /*HEADER*/
   header nav {
@@ -334,7 +386,7 @@ const booleano = ref(true);
 }
 
 /*PRINCIPAL*/
-  section.principal {
+ section.principal {
       border-bottom: solid 1px #27AE60;
     }
     section.principal div.dividir {
@@ -402,29 +454,56 @@ const booleano = ref(true);
       padding: 0 10px;
     }
 
+/*CARRINHO*/
+.carrinho {
+  margin: 2vw 5vw;
+}
+
+.carrinho h2 {
+  color: #27AE60;
+  font-size: 1.6rem;
+  margin: 2vw;
+}
+
+.carrinho .subtitulos{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 2px #27AE60;
+  list-style: none;
+
+}
+
+.carrinho ul li p {
+  font-size: 1.3rem;
+
+}
+
 /*FOOTER*/
 footer {
   background-color: #27AE60;
   padding: 3vw 0 0 0;
 
 }
+
 .maior {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   margin: 0 10vw;
 }
 
 .ifbooks {
   color: white;
   margin: 0 3vw;
-  
+
 }
+
 footer div ul {
   display: flex;
   list-style: none;
   width: 5%;
   justify-content: space-between;
 }
+
 footer div ul li a {
   color: white;
   font-size: 2vw;
@@ -437,22 +516,23 @@ footer h3 {
   margin: 0 2vw;
 
 }
+
 .contato {
   display: block;
   width: 100%;
   line-height: 1.5rem;
-  margin: 0 0 4vw 0 ;
-  
+  margin: 0 0 4vw 0;
+
 }
 
-.contato li  {
+.contato li {
   width: 100%;
   color: white;
 }
 
 .pagamentos ul {
   display: flex;
-  
+
 }
 
 .direitos {
@@ -460,7 +540,6 @@ footer h3 {
   color: #FFFFFF;
   opacity: 60%;
   padding: 1vw;
-  border-top: solid 1px #FFFFFF ;
+  border-top: solid 1px #FFFFFF;
 }
-
 </style>
