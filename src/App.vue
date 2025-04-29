@@ -66,9 +66,10 @@ const booleano = ref(true);
 <template>
     
     <body>
-         <header>
+        <header>
+            <nav>
               <div class="logo">
-                  <h1>IFBooks</h1>
+                  <h1> <a href="#principal">IFBooks</a></h1>
                   <h2>Apreço a leitura</h2>
               </div>
               <div class="pesquisa">
@@ -81,17 +82,22 @@ const booleano = ref(true);
                     <li><a href="#">Envio</a></li>
                     <li><a href="#">Devoluções</a></li>
                 </ul>
-                <ul>
+                <ul class="icones">
                   <li><button v-on:click="booleano = !booleano">
                     <span class="fa-solid fa-cart-shopping"></span>
                   </button></li>
-                  <li class="borda"><span class="fa-solid fa-heart"></span></li>
-                  <li><span class="fa-solid fa-user"></span></li>
+                  <li class="borda"><button>
+                    <span class="fa-solid fa-heart"></span>
+                  </button></li>
+                  <li><button>
+                    <span class="fa-solid fa-user"></span>
+                  </button></li>
                 </ul>
-            </header>
+            </nav>
+        </header>
         
             <main>
-              <section class="principal" v-if="booleano">
+              <section id="principal" class="principal" v-if="booleano">
                 <div class="dividir">
                     <div class="texto">
                       <p class="autor">Autor de Abril</p>
@@ -121,7 +127,6 @@ const booleano = ref(true);
                     </li>
                   </ul>
                 </div>
-
               </section>
       <section class="lancamentos"  v-if="booleano">
         <h2>Lançamentos</h2>
@@ -179,70 +184,83 @@ const booleano = ref(true);
   
 <style scoped>
 /*HEADER*/
-  header {
+  header nav {
       display: flex;
       justify-content: space-between;
-      padding: 0 0 15px 0;
+      padding: 10px 0 15px 0;
       border-bottom: solid 1px #27AE60;
       align-items: center;
+      position: fixed;
+	    top: 0%;
+	    width: 100%;
+      background-color: #FFFFFF;
     }
-    header div.logo {
+    header nav div.logo {
       display: flex;
       align-items: center;
-      width: 9%;
+      width: 10%;
       margin: 0 0 0 10vw;
     }
-    header div.logo h1 {
+    header nav div.logo h1 {
       font-size: 1.2rem;
       font-weight: normal;
-      color: #231F2D;
       padding: 0 5px 0 0;
       border-right: 2px solid #27AE60;
     }
-    header div.logo h2 {
+    header nav div.logo h1 a {
+      text-decoration: none;
+      color: #231F2D;
+    }
+    header nav div.logo h2 {
       font-size: 0.8rem;
       color: #27AE60;
       font-weight: normal;
       padding: 0 0 0 5px;
       flex-wrap: wrap;
+      width: 40%;
     }
-    header div.pesquisa {
+    header nav div.pesquisa {
       padding: 0 10px 0 0;
       background-color: #F1F1F1;
       width: 30%;
       display: flex;
       justify-content: space-between;
     }
-    header div.pesquisa p {
+    header nav div.pesquisa p {
       font-size: 1rem;
       color: #B8B8B8;
       text-align: left;
       padding: 0 0 0 10px;
     }
-    header div.pesquisa p.icone {
+    header nav div.pesquisa p.icone {
       color: #231F2D;
     }
-    header ul.menu {
+    header nav ul.menu {
       display: flex;
       justify-content: space-between;
       width: 25%;
       margin: 0 2vw 0 2vw;
-    }
-    header ul.menu li a:hover {
-      color: #7B7881; 
       list-style: none;
     }
-    header ul {
+    header nav ul.menu li a {
+      color: #7B7881;
+      text-decoration: none;
+    }
+    header nav ul.icones {
       display: flex;
       justify-content: space-between;
       width: 10%;
       margin: 0 10vw 0 0;
     }
-    header ul li {
+    header nav ul.icones li button {
       color: #27AE60;
+      border: none;
+      background-color: #FFFFFF;
+    }
+    header nav ul.icones li {
       list-style: none;
     }
-    header ul li.borda {
+    header nav ul.icones li.borda {
       border-left: solid 1px #27AE60;
       border-right: solid 1px #27AE60;
       padding: 0 25px;
@@ -323,7 +341,7 @@ const booleano = ref(true);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 0 12vw;
+      margin: 3vw 12vw;
     }
     section.principal div.texto {
       width: 50%;
