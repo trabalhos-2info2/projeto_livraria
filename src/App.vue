@@ -63,15 +63,21 @@ const booleano = ref(true);
 const carrinho = ref([]);
 const quantidade = ref(1);
 
-function adicionar() {
-  carrinho.value.push({produto, quantidade: quantidade.value});
+function adicionar(produto) {
+  const posicaoProduto = carrinho.value.findIndex(item => item.produto.id === produto.id);
+  if (posicaoProduto !== -1) {
+    carrinho.value[posicaoProduto].quantidade += quantidade.value;
+  } else {
+    carrinho.value.push({ produto, quantidade: quantidade.value });
+  }
+  item.quantidade.value = 1;
 }
-function incrementar() {
-  quantidade.value++;
+function incrementar(item) {
+  item.quantidade++;
 }
-function decrementar() {
-  if (quantidade.value > 1) {
-    quantidade.value--;
+function decrementar(item) {
+  if (item.quantidade > 1) {
+    item.quantidade--;
   }
 }
 
@@ -177,14 +183,26 @@ function decrementar() {
             </li>
             </ul>
             <ul>
-              <li v-for="produto in carrinho" :key="produto.id">
+              <li v-for="item in carrinho" :key="item.produto.id">
+                <div class="infoLivro">
                 <div>
-                  <img :src="produto.capa" :alt="produto.titulo" />
+                  <img :src="item.produto.capa" :alt="item.produto.titulo" />
                 </div>
                 <div>
-                  <h3>{{ produto.titulo }}</h3>
-                  <p>{{ produto.autor }}</p>
-                  <p class="preco">R${{ produto.preco }}</p>
+                  <h3>{{ item.produto.titulo }}</h3>
+                  <p>{{ item.produto.autor }}</p>
+                  <p class="preco">R${{ item.produto.preco }}</p>
+                </div>
+              </div>
+                <div>
+                  <p>
+                    <button v-on:click="incrementar(item)">+</button>
+                    {{ item.quantidade }}
+                    <button v-on:click="decrementar(item)">-</button> 
+                  </p>
+                </div>
+                <div>
+                  <p>R${{ (item.produto.preco * item.quantidade).toFixed(2) }}</p>
                 </div>
               </li>
 
@@ -477,6 +495,21 @@ function decrementar() {
   font-size: 1.3rem;
 
 }
+
+.carrinho li {
+  display: flex;
+  justify-content: space-between;
+} 
+
+.carrinho li .infoLivro {
+  display: flex;
+}
+
+.carrinho li div img {
+  width: 50%;
+}
+
+.carrinho li 
 
 /*FOOTER*/
 footer {
