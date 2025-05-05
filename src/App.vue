@@ -63,15 +63,27 @@ const booleano = ref(true);
 const carrinho = ref([]);
 const quantidade = ref(1);
 
-function adicionar() {
-  carrinho.value.push({produto, quantidade: quantidade.value});
+function adicionar(produto) {
+  const posicaoProduto = carrinho.value.findIndex(item => item.produto.id === produto.id);
+  if (posicaoProduto !== -1) {
+    carrinho.value[posicaoProduto].quantidade += quantidade.value;
+  } else {
+    carrinho.value.push({ produto, quantidade: quantidade.value });
+  }
+  item.quantidade.value = 1;
 }
-function incrementar() {
-  quantidade.value++;
+function incrementar(item) {
+  item.quantidade++;
 }
-function decrementar() {
-  if (quantidade.value > 1) {
-    quantidade.value--;
+function decrementar(item) {
+  if (item.quantidade > 0) {
+    item.quantidade--;
+    if (item.quantidade === 0) {
+      const posicao = carrinho.value.findIndex(contador => contador.produto.id === item.produto.id);
+      if (posicao !== -1) {
+        carrinho.value.splice(posicao, 1);
+      }
+    }
   }
 }
 
@@ -176,15 +188,27 @@ function decrementar() {
               <p>Subtotal</p>
             </li>
             </ul>
-            <ul>
-              <li v-for="produto in carrinho" :key="produto.id">
+            <ul class="produtosCar">
+              <li v-for="item in carrinho" :key="item.produto.id">
+                <div class="livro">
                 <div>
-                  <img :src="produto.capa" :alt="produto.titulo" />
+                  <img :src="item.produto.capa" :alt="item.produto.titulo" />
+                </div>
+                <div class="info">
+                  <h3>{{ item.produto.titulo }}</h3>
+                  <p>{{ item.produto.autor }}</p>
+                  <p class="preco">R${{ item.produto.preco }}</p>
+                </div>
+              </div>
+                <div>
+                  <p class="quantidadeItens">
+                    <button v-on:click="incrementar(item)">+</button>
+                    {{ item.quantidade }}
+                    <button v-on:click="decrementar(item)">-</button> 
+                  </p>
                 </div>
                 <div>
-                  <h3>{{ produto.titulo }}</h3>
-                  <p>{{ produto.autor }}</p>
-                  <p class="preco">R${{ produto.preco }}</p>
+                  <p class="preco">R${{ (item.produto.preco * item.quantidade).toFixed(2) }}</p>
                 </div>
               </li>
 
@@ -193,7 +217,7 @@ function decrementar() {
         </div>
       </section>
     </main>
-    <footer>
+    <footer v-if="booleano || !booleano">
       <div class="maior">
         <div>
           <p class="ifbooks">IFbooks</p>
@@ -465,16 +489,68 @@ function decrementar() {
   margin: 2vw;
 }
 
-.carrinho .subtitulos{
+.carrinho ul.subtitulos{
   display: flex;
-  justify-content: space-between;
   border-bottom: solid 2px #27AE60;
   list-style: none;
+  
+}
+
+.carrinho ul.subtitulos li {
+  font-size: 1.3rem;
+  border: none;
+  margin: 0 33vw 0 0;
 
 }
 
-.carrinho ul li p {
+.carrinho div ul.produtosCar li {
+  display: flex;
+  padding: 1vw 0;
+  border-bottom: solid 2px #9a999a ;
+} 
+
+.carrinho li p {
   font-size: 1.3rem;
+}
+
+.carrinho li .livro {
+  display: flex;
+  align-items: center;
+}
+
+.carrinho li .info {
+  text-align: left;
+  flex-grow: 1;
+  margin: 0 13vw 3vw 2vw;
+
+}
+
+.carrinho li div img {
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.carrinho li p.preco {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.carrinho li h3 {
+  font-size: 1.5rem;
+}
+
+.carrinho p.quantidadeItens button {
+  background-color: #FFFFFF;
+  border: none;
+  font-size: 1.5rem;
+}
+
+.carrinho p.quantidadeItens {
+  border: solid 2px black;
+  padding: 0.5vw 1vw;
+  font-size: 1.5rem;
+  margin: 0 33vw 0 0;
+  
 
 }
 
