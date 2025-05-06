@@ -59,7 +59,8 @@ const produtos = [
     capa: '/src/book_lovers.png',
   },
 ];
-const booleano = ref(true);
+const booleanoCarrinho = ref(true);
+const booleanoInicio = ref(true);
 const carrinho = ref([]);
 const quantidade = ref(1);
 
@@ -87,6 +88,10 @@ function decrementar(item) {
   }
 }
 
+function totalCompra() {
+
+}
+
 </script>
 
 <template>
@@ -95,7 +100,7 @@ function decrementar(item) {
         <header>
             <nav>
               <div class="logo">
-                  <h1> <a href="#principal">IFBooks</a></h1>
+                  <h1 v-on:click="booleanoInicio = !booleanoInicio"> <a href="#principal">IFBooks</a></h1>
                   <h2>Apreço a leitura</h2>
               </div>
               <div class="pesquisa">
@@ -109,7 +114,7 @@ function decrementar(item) {
                     <li><a href="#">Devoluções</a></li>
                 </ul>
                 <ul class="icones">
-                  <li><button v-on:click="booleano = !booleano">
+                  <li><button v-on:click="booleanoCarrinho = !booleanoCarrinho">
                     <span class="fa-solid fa-cart-shopping"></span>
                   </button></li>
                   <li class="borda"><button>
@@ -123,7 +128,7 @@ function decrementar(item) {
         </header>
 
     <main>
-      <section id="principal" class="principal" v-if="booleano">
+      <section id="principal" class="principal" v-if="booleanoCarrinho">
         <div class="dividir">
           <div class="texto">
             <p class="autor">Autor de Abril</p>
@@ -157,7 +162,7 @@ function decrementar(item) {
         </div>
       </section>
       
-      <section class="lancamentos" v-if="booleano">
+      <section class="lancamentos" v-if="booleanoCarrinho">
         <h2>Lançamentos</h2>
         <ul>
           <li v-for="produto in produtos" :key="produto.id">
@@ -213,9 +218,21 @@ function decrementar(item) {
               </li>
             </ul>
         </div>
+
+        <div class="sectionCompra">
+          <button v-on:click="booleanoCarrinho = !booleanoCarrinho">Voltar para loja</button>
+          <form action="#" method="get">
+            <input class="cupom" type="text" name="cupom" id="cupom" placeholder="Código do cupom">
+            <input class="confirmarCupom" type="reset" value="Inserir Cupom">
+          </form>
+        </div>
+        <div class="totalCompra">
+          <h3>Total da Compra</h3>
+        </div>
+
       </section>
     </main>
-    <footer v-if="booleano || !booleano">
+    <footer v-if="booleanoCarrinho || !booleanoCarrinho">
       <div class="maior">
         <div>
           <p class="ifbooks">IFbooks</p>
@@ -574,6 +591,34 @@ function decrementar(item) {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 5vw 0;
+}
+
+/*TOTAL COMPRA*/
+.carrinho div.sectionCompra {
+  margin: 3vw 2vw;
+}
+.carrinho div.sectionCompra button {
+  margin: 0 0 5vw 0;
+  padding: 20px 30px;
+  background-color: #FFFFFF;
+  border: solid 1px #9a999a;
+  font-size: 0.9rem;
+  border-radius: 5px;
+}
+.carrinho div.sectionCompra form input.cupom {
+  border: black solid 1px;
+  padding: 20px 30px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  margin: 0 10px 0 0;
+}
+.carrinho div.sectionCompra form input.confirmarCupom {
+  background-color: #27AE60;
+  color: #FAFAFA;
+  font-size: 0.9rem;
+  padding: 20px 30px;
+  border-radius: 5px;
+  border: none;
 }
 
 /*FOOTER*/
