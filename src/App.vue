@@ -176,16 +176,16 @@ function decrementar(item) {
       </section>
       <section class="carrinho" id="cart" v-else>
         <h2>Carrinho</h2>
-        <div>
+        <div class="listaProdutosCarrinho">
           <ul class="subtitulos">
             <li>
-              <p>Título</p>
+              <p class="tituloProduto">Título</p>
             </li>
             <li>
-              <p>Quantidade</p>
+              <p class="quantidadeProduto">Quantidade</p>
             </li>
             <li>
-              <p>Subtotal</p>
+              <p class="subtotalProduto">Subtotal</p>
             </li>
             </ul>
             <ul class="produtosCar">
@@ -196,7 +196,7 @@ function decrementar(item) {
                 </div>
                 <div class="info">
                   <h3>{{ item.produto.titulo }}</h3>
-                  <p>{{ item.produto.autor }}</p>
+                  <p class="autor">{{ item.produto.autor }}</p>
                   <p class="preco">R${{ item.produto.preco }}</p>
                 </div>
               </div>
@@ -208,12 +208,10 @@ function decrementar(item) {
                   </p>
                 </div>
                 <div>
-                  <p class="preco">R${{ (item.produto.preco * item.quantidade).toFixed(2) }}</p>
+                  <p class="precoTotal">R${{ (item.produto.preco * item.quantidade).toFixed(2) }}</p>
                 </div>
               </li>
-
             </ul>
-          
         </div>
       </section>
     </main>
@@ -368,6 +366,7 @@ function decrementar(item) {
 
 .lancamentos li img {
   width: 100%;
+  border-radius: 3px;
 }
 
 .lancamentos li h3 {
@@ -485,8 +484,8 @@ function decrementar(item) {
 
 .carrinho h2 {
   color: #27AE60;
-  font-size: 1.6rem;
-  margin: 2vw;
+  font-size: 2.2rem;
+  margin: 10vw 0 3vw 2vw;
 }
 
 .carrinho ul.subtitulos{
@@ -499,8 +498,17 @@ function decrementar(item) {
 .carrinho ul.subtitulos li {
   font-size: 1.3rem;
   border: none;
-  margin: 0 33vw 0 0;
 
+}
+.carrinho ul.subtitulos li p.tituloProduto {
+  min-width: 48vw;
+}
+.carrinho ul.subtitulos li p.quantidadeProduto {
+  min-width: 25vw;
+}
+
+.carrinho div ul.produtosCar {
+  min-height: 20vw;
 }
 
 .carrinho div ul.produtosCar li {
@@ -513,6 +521,10 @@ function decrementar(item) {
   font-size: 1.3rem;
 }
 
+.carrinho li .autor {
+  font-size: 1.1rem;
+}
+
 .carrinho li .livro {
   display: flex;
   align-items: center;
@@ -520,19 +532,22 @@ function decrementar(item) {
 
 .carrinho li .info {
   text-align: left;
+  line-height: 0.8rem;
   flex-grow: 1;
-  margin: 0 13vw 3vw 2vw;
+  margin: 0 0 5vw 2vw;
+  min-width: 39vw;
 
 }
 
 .carrinho li div img {
-  width: 110px;
+  width: 120px;
+  border-radius: 3px;
   flex-shrink: 0;
 }
 
 .carrinho li p.preco {
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 
 .carrinho li h3 {
@@ -543,15 +558,22 @@ function decrementar(item) {
   background-color: #FFFFFF;
   border: none;
   font-size: 1.5rem;
+  margin: 0 0.4vw;
 }
 
 .carrinho p.quantidadeItens {
   border: solid 2px black;
-  padding: 0.5vw 1vw;
+  padding: 0.8vw 1vw;
   font-size: 1.5rem;
-  margin: 0 33vw 0 0;
-  
+  margin: 4vw 17vw 0 0;
+  border: solid 1px black;
 
+
+}
+.carrinho li p.precoTotal {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 5vw 0;
 }
 
 /*FOOTER*/
