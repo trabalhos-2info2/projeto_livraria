@@ -63,6 +63,7 @@ const booleanoCarrinho = ref(true);
 const booleanoInicio = ref(true);
 const carrinho = ref([]);
 const quantidade = ref(1);
+const booleanoCoracao = ref();
 
 function adicionar(produto) {
   const posicaoProduto = carrinho.value.findIndex(item => item.produto.id === produto.id);
@@ -71,8 +72,9 @@ function adicionar(produto) {
   } else {
     carrinho.value.push({ produto, quantidade: quantidade.value });
   }
-  item.quantidade.value = 1;
+  quantidade.value = 1;
 }
+
 function incrementar(item) {
   item.quantidade++;
 }
@@ -89,7 +91,6 @@ function decrementar(item) {
 }
 
 function totalCompra() {
-
 }
 
 </script>
@@ -171,9 +172,13 @@ function totalCompra() {
             <p>{{ produto.autor }}</p>
             <div>
               <p class="preco">R${{ produto.preco }}</p>
-              <p class="coracao"><i class="fa-regular fa-heart"></i></p>
+                <button v-on:click="booleanoCoracao = !booleanoCoracao" class="botaoCoracao">
+                  <p v-if="!booleanoCoracao" class="coracaoVazio"><span class="fa-regular fa-heart"></span></p>
+                  <p v-else class="coracaoClique"><span class="fa-solid fa-heart"></span></p>
+                </button>
+              
             </div>
-            <button v-on:click="adicionar(produto)">
+            <button v-on:click="adicionar(produto)" class="comprar">
               <span class="fa-solid fa-cart-shopping"></span> Comprar
             </button>
           </li>
@@ -407,13 +412,23 @@ function totalCompra() {
   font-size: 1.1rem;
 
 }
-
-.lancamentos .coracao {
-  color: #27AE60;
-  font-size: 1.2rem;
+.lancamentos .botaoCoracao {
+  border: none;
+  background-color: #FFFFFF;
 }
 
-.lancamentos button {
+.lancamentos .coracaoVazio {
+  color: #27AE60;
+  font-size: 1.2rem;
+
+}
+
+.lancamentos .coracaoClique {
+ color: #27AE60;
+ font-size: 1.2rem;
+}
+
+.lancamentos button.comprar {
   background-color: #27AE60;
   color: white;
   border: none;
