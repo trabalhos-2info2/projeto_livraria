@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const produtos = [
   {
@@ -64,6 +64,13 @@ const booleanoInicio = ref(true);
 const carrinho = ref([]);
 const quantidade = ref(1);
 const booleanoCoracao = ref();
+const produtosCurtidos = ref(new Set());
+
+const contadorCurtidos = computed(() => produtosCurtidos.value.size);
+
+const contadorCarrinho = computed(() => {
+  return carrinho.value.reduce((total, item) => total + item.quantidade, 0);
+});
 
 function adicionar(produto) {
   const posicaoProduto = carrinho.value.findIndex(item => item.produto.id === produto.id);
@@ -73,6 +80,15 @@ function adicionar(produto) {
     carrinho.value.push({ produto, quantidade: quantidade.value });
   }
   quantidade.value = 1;
+}
+
+function cliqueCurtir(idProduto) {
+  if (produtosCurtidos.value.has(idProduto)) {
+    produtosCurtidos.value.delete(idProduto);
+  } else {
+    produtosCurtidos.value.add(idProduto);
+  }
+  
 }
 
 function incrementar(item) {
@@ -90,43 +106,46 @@ function decrementar(item) {
   }
 }
 
-function totalCompra() {
-}
-
 </script>
 
 <template>
 
-<body>
-        <header>
-            <nav>
-              <div class="logo">
-                  <h1 v-on:click="booleanoInicio = !booleanoInicio"> <a href="#principal">IFBooks</a></h1>
-                  <h2>Apreço a leitura</h2>
-              </div>
-              <div class="pesquisa">
-                  <p>Pesquisar</p>
-                  <p class="icone"><span class="fa-solid fa-magnifying-glass"></span></p>
-              </div>
-                <ul class="menu">
-                    <li><a href="#">Termos</a></li>
-                    <li><a href="#">Equipe</a></li>
-                    <li><a href="#">Envio</a></li>
-                    <li><a href="#">Devoluções</a></li>
-                </ul>
-                <ul class="icones">
-                  <li><button v-on:click="booleanoCarrinho = !booleanoCarrinho">
-                    <span class="fa-solid fa-cart-shopping"></span>
-                  </button></li>
-                  <li class="borda"><button>
-                    <span class="fa-solid fa-heart"></span>
-                  </button></li>
-                  <li><button>
-                    <span class="fa-solid fa-user"></span>
-                  </button></li>
-                </ul>
-            </nav>
-        </header>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <h1 v-on:click="booleanoInicio = !booleanoInicio"> <a href="#principal">IFBooks</a></h1>
+          <h2>Apreço a leitura</h2>
+        </div>
+        <div class="pesquisa">
+          <p>Pesquisar</p>
+          <p class="icone"><span class="fa-solid fa-magnifying-glass"></span></p>
+        </div>
+        <ul class="menu">
+          <li><a href="#">Termos</a></li>
+          <li><a href="#">Equipe</a></li>
+          <li><a href="#">Envio</a></li>
+          <li><a href="#">Devoluções</a></li>
+        </ul>
+        <ul class="icones">
+          <li>
+            <button v-on:click="booleanoCarrinho = !booleanoCarrinho">
+              <span class="fa-solid fa-cart-shopping"></span>
+              <span v-if="contadorCarrinho > 0" class="contCarrinho">{{ contadorCarrinho }}</span>
+            </button>
+          </li>
+          <li class="borda">
+            <button>
+              <span class="fa-solid fa-heart"></span>
+              <span v-if="contadorCurtidos > 0" class="contCoracao">{{ contadorCurtidos }}</span>
+            </button>
+          </li>
+          <li><button>
+              <span class="fa-solid fa-user"></span>
+            </button></li>
+        </ul>
+      </nav>
+    </header>
 
     <main>
       <section id="principal" class="principal" v-if="booleanoCarrinho">
@@ -162,7 +181,7 @@ function totalCompra() {
           </ul>
         </div>
       </section>
-      
+
       <section class="lancamentos" v-if="booleanoCarrinho">
         <h2>Lançamentos</h2>
         <ul>
@@ -172,11 +191,12 @@ function totalCompra() {
             <p>{{ produto.autor }}</p>
             <div>
               <p class="preco">R${{ produto.preco }}</p>
-                <button v-on:click="booleanoCoracao = !booleanoCoracao" class="botaoCoracao">
-                  <p v-if="!booleanoCoracao" class="coracaoVazio"><span class="fa-regular fa-heart"></span></p>
-                  <p v-else class="coracaoClique"><span class="fa-solid fa-heart"></span></p>
-                </button>
-              
+              <button v-on:click="cliqueCurtir(produto.id)" class="botaoCoracao">
+                <p v-if="!produtosCurtidos.has(produto.id)" class="coracaoVazio"><span class="fa-regular fa-heart"></span>
+                </p>
+                <p v-else class="coracaoClique"><span class="fa-solid fa-heart"></span></p>
+              </button>
+
             </div>
             <button v-on:click="adicionar(produto)" class="comprar">
               <span class="fa-solid fa-cart-shopping"></span> Comprar
@@ -197,10 +217,10 @@ function totalCompra() {
             <li>
               <p class="subtotalProduto">Subtotal</p>
             </li>
-            </ul>
-            <ul class="produtosCar">
-              <li v-for="item in carrinho" :key="item.produto.id">
-                <div class="livro">
+          </ul>
+          <ul class="produtosCar">
+            <li v-for="item in carrinho" :key="item.produto.id">
+              <div class="livro">
                 <div>
                   <img :src="item.produto.capa" :alt="item.produto.titulo" />
                 </div>
@@ -210,18 +230,18 @@ function totalCompra() {
                   <p class="preco">R${{ item.produto.preco }}</p>
                 </div>
               </div>
-                <div>
-                  <p class="quantidadeItens">
-                    <button v-on:click="incrementar(item)">+</button>
-                    {{ item.quantidade }}
-                    <button v-on:click="decrementar(item)">-</button> 
-                  </p>
-                </div>
-                <div>
-                  <p class="precoTotal">R${{ (item.produto.preco * item.quantidade).toFixed(2) }}</p>
-                </div>
-              </li>
-            </ul>
+              <div>
+                <p class="quantidadeItens">
+                  <button v-on:click="incrementar(item)">+</button>
+                  {{ item.quantidade }}
+                  <button v-on:click="decrementar(item)">-</button>
+                </p>
+              </div>
+              <div>
+                <p class="precoTotal">R${{ (item.produto.preco * item.quantidade).toFixed(2) }}</p>
+              </div>
+            </li>
+          </ul>
         </div>
 
         <div class="sectionCompra">
@@ -280,87 +300,102 @@ function totalCompra() {
 
 <style scoped>
 /*HEADER*/
-  header nav {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0 15px 0;
-      border-bottom: solid 1px #27AE60;
-      align-items: center;
-      position: fixed;
-	    top: 0%;
-	    width: 100%;
-      background-color: #FFFFFF;
-    }
-    header nav div.logo {
-      display: flex;
-      align-items: center;
-      width: 10%;
-      margin: 0 0 0 10vw;
-    }
-    header nav div.logo h1 {
-      font-size: 1.2rem;
-      font-weight: normal;
-      padding: 0 5px 0 0;
-      border-right: 2px solid #27AE60;
-    }
-    header nav div.logo h1 a {
-      text-decoration: none;
-      color: #231F2D;
-    }
-    header nav div.logo h2 {
-      font-size: 0.8rem;
-      color: #27AE60;
-      font-weight: normal;
-      padding: 0 0 0 5px;
-      flex-wrap: wrap;
-      width: 40%;
-    }
-    header nav div.pesquisa {
-      padding: 0 10px 0 0;
-      background-color: #F1F1F1;
-      width: 30%;
-      display: flex;
-      justify-content: space-between;
-    }
-    header nav div.pesquisa p {
-      font-size: 1rem;
-      color: #B8B8B8;
-      text-align: left;
-      padding: 0 0 0 10px;
-    }
-    header nav div.pesquisa p.icone {
-      color: #231F2D;
-    }
-    header nav ul.menu {
-      display: flex;
-      justify-content: space-between;
-      width: 25%;
-      margin: 0 2vw 0 2vw;
-      list-style: none;
-    }
-    header nav ul.menu li a {
-      color: #7B7881;
-      text-decoration: none;
-    }
-    header nav ul.icones {
-      display: flex;
-      justify-content: space-between;
-      width: 10%;
-      margin: 0 10vw 0 0;
-    }
-    header nav ul.icones li button {
-      color: #27AE60;
-      border: none;
-      background-color: #FFFFFF;
-    }
-    header nav ul.icones li {
-      list-style: none;
-    }
-    header nav ul.icones li.borda {
-      border-left: solid 1px #27AE60;
-      border-right: solid 1px #27AE60;
-      padding: 0 25px;
-    }
+header nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0 15px 0;
+  border-bottom: solid 1px #27AE60;
+  align-items: center;
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  background-color: #FFFFFF;
+}
+
+header nav div.logo {
+  display: flex;
+  align-items: center;
+  width: 10%;
+  margin: 0 0 0 10vw;
+}
+
+header nav div.logo h1 {
+  font-size: 1.2rem;
+  font-weight: normal;
+  padding: 0 5px 0 0;
+  border-right: 2px solid #27AE60;
+}
+
+header nav div.logo h1 a {
+  text-decoration: none;
+  color: #231F2D;
+}
+
+header nav div.logo h2 {
+  font-size: 0.8rem;
+  color: #27AE60;
+  font-weight: normal;
+  padding: 0 0 0 5px;
+  flex-wrap: wrap;
+  width: 40%;
+}
+
+header nav div.pesquisa {
+  padding: 0 10px 0 0;
+  background-color: #F1F1F1;
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+header nav div.pesquisa p {
+  font-size: 1rem;
+  color: #B8B8B8;
+  text-align: left;
+  padding: 0 0 0 10px;
+}
+
+header nav div.pesquisa p.icone {
+  color: #231F2D;
+}
+
+header nav ul.menu {
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
+  margin: 0 2vw 0 2vw;
+  list-style: none;
+}
+
+header nav ul.menu li a {
+  color: #7B7881;
+  text-decoration: none;
+}
+
+header nav ul.icones {
+  display: flex;
+  justify-content: space-between;
+  width: 10%;
+  margin: 1vw 10vw 0 0;
+}
+
+header nav ul.icones li button {
+  color: #27AE60;
+  border: none;
+  margin: 0 1vw 0 0.5vw;
+  background-color: #FFFFFF;
+}
+
+header nav ul.icones li {
+  list-style: none;
+  
+}
+
+header nav ul.icones li.borda {
+  border-left: solid 1px #27AE60;
+  border-right: solid 1px #27AE60;
+  padding: 0 25px;
+}
 
 /*LANÇAMENTOS*/
 .lancamentos {
@@ -412,9 +447,38 @@ function totalCompra() {
   font-size: 1.1rem;
 
 }
+
 .lancamentos .botaoCoracao {
   border: none;
   background-color: #FFFFFF;
+}
+
+.contCoracao {
+  background-color: #27AE60;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 0 4px;
+  position: relative;
+  bottom: 25px;
+  left: 10px;
+  text-align: center;
+
+}
+
+.contCarrinho {
+  background-color: #27AE60;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 0 4px;
+  position: relative;
+  bottom: 25px;
+  left: 10px;
+  text-align: center;
+
 }
 
 .lancamentos .coracaoVazio {
@@ -423,9 +487,17 @@ function totalCompra() {
 
 }
 
+.lancamentos .coracaoVazio:hover {
+  transform: scale(1.15);
+}
+
 .lancamentos .coracaoClique {
- color: #27AE60;
- font-size: 1.2rem;
+  color: #27AE60;
+  font-size: 1.2rem;
+}
+
+.lancamentos .coracaoClique:hover {
+  transform: scale(1.15);
 }
 
 .lancamentos button.comprar {
@@ -440,74 +512,89 @@ function totalCompra() {
 
 }
 
+.lancamentos button.comprar:hover {
+  transform: scale(1.05);
+}
+
 /*PRINCIPAL*/
- section.principal {
-      border-bottom: solid 1px #27AE60;
-    }
-    section.principal div.dividir {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 3vw 12vw;
-    }
-    section.principal div.texto {
-      width: 50%;
-    }
-    section.principal div.dividir div.texto p.autor {
-      border: solid 1px #27AE60;
-      color: #27AE60;
-      padding: 8px;
-      width: 14%;
-    }
-    section.principal div.dividir div.texto h2 {
-      font-size: 3.5rem;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-    section.principal div.dividir div.texto p.texto {
-      font-size: 1.3rem;
-      color: #4D4C4C;
-      width: 74%;
-      margin: 0 0 3vw 0;
-    }
-    section.principal div.dividir div.texto button {
-      color: white;
-      background-color: #27AE60;
-      padding: 1vw 2vw;
-      font-size: 1rem;
-      border: none;
-    }
+section.principal {
+  border-bottom: solid 1px #27AE60;
+}
 
-    section.principal div.dividir div.imagem p.texto {
-      text-align: right;
-      color: #313131;
-    }
+section.principal div.dividir {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 3vw 12vw;
+}
 
-    section.principal div.lista {
-      border-top: solid 1px #27AE60;
-    }
-    section.principal div.lista ul {
-      display: flex;
-      justify-content: space-between;
-      margin: 3vw 8vw ;
-      list-style: none;
-    }
-    section.principal div.lista ul li {
-      font-size: 1.7rem;
-      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: space-between;
-    }
-    section.principal div.lista ul li.borda {
-      border-left: solid 1px #937DC2;
-      border-right: solid 1px #937DC2;
-      padding: 0 8vw;
-    }
-    section.principal div.lista ul li p.underline {
-      text-decoration: underline;
-    }
-    section.principal div.lista ul li p {
-      padding: 0 10px;
-    }
+section.principal div.texto {
+  width: 50%;
+}
+
+section.principal div.dividir div.texto p.autor {
+  border: solid 1px #27AE60;
+  color: #27AE60;
+  padding: 8px;
+  width: 14%;
+}
+
+section.principal div.dividir div.texto h2 {
+  font-size: 3.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+section.principal div.dividir div.texto p.texto {
+  font-size: 1.3rem;
+  color: #4D4C4C;
+  width: 74%;
+  margin: 0 0 3vw 0;
+}
+
+section.principal div.dividir div.texto button {
+  color: white;
+  background-color: #27AE60;
+  padding: 1vw 2vw;
+  font-size: 1rem;
+  border: none;
+}
+
+section.principal div.dividir div.imagem p.texto {
+  text-align: right;
+  color: #313131;
+}
+
+section.principal div.lista {
+  border-top: solid 1px #27AE60;
+}
+
+section.principal div.lista ul {
+  display: flex;
+  justify-content: space-between;
+  margin: 3vw 8vw;
+  list-style: none;
+}
+
+section.principal div.lista ul li {
+  font-size: 1.7rem;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+section.principal div.lista ul li.borda {
+  border-left: solid 1px #937DC2;
+  border-right: solid 1px #937DC2;
+  padding: 0 8vw;
+}
+
+section.principal div.lista ul li p.underline {
+  text-decoration: underline;
+}
+
+section.principal div.lista ul li p {
+  padding: 0 10px;
+}
 
 /*CARRINHO*/
 .carrinho {
@@ -520,11 +607,11 @@ function totalCompra() {
   margin: 10vw 0 3vw 2vw;
 }
 
-.carrinho ul.subtitulos{
+.carrinho ul.subtitulos {
   display: flex;
   border-bottom: solid 2px #27AE60;
   list-style: none;
-  
+
 }
 
 .carrinho ul.subtitulos li {
@@ -532,9 +619,11 @@ function totalCompra() {
   border: none;
 
 }
+
 .carrinho ul.subtitulos li p.tituloProduto {
   min-width: 48vw;
 }
+
 .carrinho ul.subtitulos li p.quantidadeProduto {
   min-width: 25vw;
 }
@@ -546,8 +635,8 @@ function totalCompra() {
 .carrinho div ul.produtosCar li {
   display: flex;
   padding: 1vw 0;
-  border-bottom: solid 2px #9a999a ;
-} 
+  border-bottom: solid 2px #9a999a;
+}
 
 .carrinho li p {
   font-size: 1.3rem;
@@ -602,6 +691,7 @@ function totalCompra() {
 
 
 }
+
 .carrinho li p.precoTotal {
   font-size: 1.5rem;
   font-weight: bold;
@@ -612,6 +702,7 @@ function totalCompra() {
 .carrinho div.sectionCompra {
   margin: 3vw 2vw;
 }
+
 .carrinho div.sectionCompra button {
   margin: 0 0 5vw 0;
   padding: 20px 30px;
@@ -620,6 +711,7 @@ function totalCompra() {
   font-size: 0.9rem;
   border-radius: 5px;
 }
+
 .carrinho div.sectionCompra form input.cupom {
   border: black solid 1px;
   padding: 20px 30px;
@@ -627,6 +719,7 @@ function totalCompra() {
   font-size: 0.9rem;
   margin: 0 10px 0 0;
 }
+
 .carrinho div.sectionCompra form input.confirmarCupom {
   background-color: #27AE60;
   color: #FAFAFA;
