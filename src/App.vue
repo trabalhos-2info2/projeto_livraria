@@ -374,6 +374,7 @@ header nav ul.menu {
   width: 25%;
   margin: 0 2vw 0 2vw;
   list-style: none;
+  align-items: center;
 }
 
 header nav ul.menu li a {
@@ -381,29 +382,39 @@ header nav ul.menu li a {
   text-decoration: none;
 }
 
+header nav ul.menu li:hover {
+  transform: scale(1.1);
+  font-weight: bold;
+}
+
 header nav ul.icones {
   display: flex;
   justify-content: space-between;
   width: 10%;
-  margin: 1vw 10vw 0 0;
+  margin: 0 10vw 0 0;
 }
 
 header nav ul.icones li button {
   color: #27AE60;
   border: none;
-  margin: 0 1vw 0 0.5vw;
+  margin: 0 1vw 0 1vw;
   background-color: #FFFFFF;
+  font-size: 1.1vw;
 }
 
 header nav ul.icones li {
   list-style: none;
-  
+   max-height: 1vw ;
+}
+
+header nav ul.icones li:hover {
+  transform: scale(1.1);
 }
 
 header nav ul.icones li.borda {
   border-left: solid 1px #27AE60;
   border-right: solid 1px #27AE60;
-  padding: 0 25px;
+  padding: 0 10px;
 }
 
 /*LANÇAMENTOS*/
@@ -470,7 +481,7 @@ header nav ul.icones li.borda {
   border-radius: 10px;
   padding: 0 4px;
   position: relative;
-  bottom: 25px;
+  bottom: 30px;
   left: 10px;
   text-align: center;
 
@@ -484,7 +495,7 @@ header nav ul.icones li.borda {
   border-radius: 10px;
   padding: 0 4px;
   position: relative;
-  bottom: 25px;
+  bottom: 30px;
   left: 10px;
   text-align: center;
 
@@ -566,6 +577,11 @@ section.principal div.dividir div.texto button {
   padding: 1vw 2vw;
   font-size: 1rem;
   border: none;
+}
+
+section.principal div.dividir div.texto button:hover {
+  transform: scale(1.1);
+
 }
 
 section.principal div.dividir div.imagem p.texto {
@@ -745,13 +761,13 @@ footer {
 
 }
 
-.maior {
+footer .maior {
   display: flex;
   justify-content: space-between;
   margin: 0 10vw;
 }
 
-.ifbooks {
+footer .ifbooks {
   color: white;
   margin: 0 3vw;
 
@@ -777,7 +793,7 @@ footer h3 {
 
 }
 
-.contato {
+footer .contato {
   display: block;
   width: 100%;
   line-height: 1.5rem;
@@ -785,17 +801,17 @@ footer h3 {
 
 }
 
-.contato li {
+footer .contato li {
   width: 100%;
   color: white;
 }
 
-.pagamentos ul {
+footer .pagamentos ul {
   display: flex;
 
 }
 
-.direitos {
+footer .direitos {
   text-align: center;
   color: #FFFFFF;
   opacity: 60%;
