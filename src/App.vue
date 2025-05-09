@@ -492,8 +492,8 @@ header nav ul.icones li.borda {
   border-radius: 10px;
   padding: 0 4px;
   position: relative;
-  bottom: 30px;
-  left: 10px;
+  bottom: 1.9vw;
+  left: 0.7vw;
   text-align: center;
 
 }
@@ -506,8 +506,8 @@ header nav ul.icones li.borda {
   border-radius: 10px;
   padding: 0 4px;
   position: relative;
-  bottom: 30px;
-  left: 10px;
+  bottom: 1.9vw;
+  left: 0.7vw;
   text-align: center;
 
 }
