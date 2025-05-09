@@ -105,6 +105,11 @@ function decrementar(item) {
     }
   }
 }
+const total = computed(() => {
+  return carrinho.value.reduce((acc, item) => {
+    return acc + item.quantidade * item.produto.preco;
+  }, 0);
+});
 
 </script>
 
@@ -253,6 +258,10 @@ function decrementar(item) {
         </div>
         <div class="totalCompra">
           <h3>Total da Compra</h3>
+          <p>Preço: R${{ total.toFixed(2) }}</p>
+          <p>Frete: Grátis</p>
+          <p class="total-valor">Total: R${{ total.toFixed(2) }}</p>
+          <button>Ir para o pagamento</button>
         </div>
 
       </section>
