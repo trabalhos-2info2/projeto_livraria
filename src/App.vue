@@ -59,14 +59,22 @@ const produtos = [
     capa: '/src/book_lovers.png',
   },
 ];
-const booleanoCarrinho = ref(true);
-const booleanoInicio = ref(true);
+const booleanoCarrinho = ref(false);
+const booleanoInicio = ref(false);
+const booleanoFavoritos = ref(false);
 const carrinho = ref([]);
 const quantidade = ref(1);
-const booleanoCoracao = ref();
-const produtosCurtidos = ref(new Set());
+const curtidos = ref([]);
 
-const contadorCurtidos = computed(() => produtosCurtidos.value.size);
+const favoritos = computed(() => {
+  return produtos.filter(produto => curtidos.value.includes(produto.id));
+});
+   
+
+const contadorCurtidos = computed(() => {
+  return curtidos.value.length;
+});
+   
 
 const contadorCarrinho = computed(() => {
   return carrinho.value.reduce((total, item) => total + item.quantidade, 0);
@@ -83,13 +91,14 @@ function adicionar(produto) {
 }
 
 function cliqueCurtir(idProduto) {
-  if (produtosCurtidos.value.has(idProduto)) {
-    produtosCurtidos.value.delete(idProduto);
+  const index = curtidos.value.indexOf(idProduto);
+  if (index !== -1) {
+    curtidos.value.splice(index, 1);
   } else {
-    produtosCurtidos.value.add(idProduto);
+    curtidos.value.push(idProduto);
   }
-  
 }
+   
 
 function incrementar(item) {
   item.quantidade++;
@@ -115,7 +124,7 @@ const total = computed(() => {
 
 <template>
 
-  <body>
+  <div>
     <header>
       <nav>
         <div class="logo">
@@ -142,7 +151,7 @@ const total = computed(() => {
             </button>
           </li>
           <li class="borda">
-            <button>
+            <button v-on:click="booleanoFavoritos = !booleanoFavoritos">
               <span class="fa-solid fa-heart"></span>
               <span v-if="contadorCurtidos > 0" class="contCoracao">{{ contadorCurtidos }}</span>
             </button>
@@ -155,7 +164,7 @@ const total = computed(() => {
     </header>
 
     <main>
-      <section id="principal" class="principal" v-if="booleanoCarrinho">
+      <section id="principal" class="principal" v-if="!booleanoCarrinho && !booleanoFavoritos">
         <div class="dividir">
           <div class="texto">
             <p class="autor">Autor de Abril</p>
@@ -189,7 +198,7 @@ const total = computed(() => {
         </div>
       </section>
 
-      <section class="lancamentos" v-if="booleanoCarrinho">
+      <section class="lancamentos" v-if="!booleanoCarrinho && !booleanoFavoritos">
         <h2>Lançamentos</h2>
         <ul>
           <li v-for="produto in produtos" :key="produto.id">
@@ -199,11 +208,10 @@ const total = computed(() => {
             <div>
               <p class="preco">R${{ produto.preco }}</p>
               <button v-on:click="cliqueCurtir(produto.id)" class="botaoCoracao">
-                <p v-if="!produtosCurtidos.has(produto.id)" class="coracaoVazio"><span class="fa-regular fa-heart"></span>
+                <p v-if="!curtidos.includes(produto.id)" class="coracaoVazio"><span class="fa-regular fa-heart"></span>
                 </p>
                 <p v-else class="coracaoClique"><span class="fa-solid fa-heart"></span></p>
               </button>
-
             </div>
             <button v-on:click="adicionar(produto)" class="comprar">
               <span class="fa-solid fa-cart-shopping"></span> Comprar
@@ -211,7 +219,7 @@ const total = computed(() => {
           </li>
         </ul>
       </section>
-      <section class="carrinho" id="cart" v-else>
+      <section class="carrinho" id="cart" v-else-if="booleanoCarrinho">
         <h2>Carrinho</h2>
         <div class="listaProdutosCarrinho">
           <ul class="subtitulos">
@@ -278,6 +286,28 @@ const total = computed(() => {
         </div>
 
       </section>
+      <section class="favoritos" v-else-if="booleanoFavoritos">
+        <h2>Favoritos</h2>
+        <ul>
+          <li v-for="item in favoritos" :key="item.id">
+            <img :src="item.capa" :alt="item.titulo" />
+            <h3>{{ item.titulo }}</h3>
+            <p>{{ item.autor }}</p>
+            <div>
+              <p class="preco">R${{ item.preco }}</p>
+              <button v-on:click="cliqueCurtir(item.id)" class="botaoCoracao">
+                <p v-if="!curtidos.includes(item.id)" class="coracaoVazio"><span class="fa-regular fa-heart"></span>
+                </p>
+                <p v-else class="coracaoClique"><span class="fa-solid fa-heart"></span></p>
+              </button>
+            </div>
+            <button v-on:click="adicionar(item)" class="comprar">
+              <span class="fa-solid fa-cart-shopping"></span> Comprar
+            </button>
+          </li>
+        </ul>
+
+      </section>
     </main>
     <footer v-if="booleanoCarrinho || !booleanoCarrinho">
       <div class="maior">
@@ -317,7 +347,7 @@ const total = computed(() => {
       </div>
       <p class="direitos">© Alguns direitos reservados. IFbooks 2025. </p>
     </footer>
-  </body>
+  </div>
 </template>
 
 <style scoped>
@@ -644,14 +674,15 @@ header nav ul.icones li.borda {
 
 .carrinho h2 {
   color: #27AE60;
-  font-size: 2.2rem;
-  margin: 10vw 0 3vw 2vw;
+  font-size: 2.4rem;
+  margin: 8vw 0 3vw 2vw;
 }
 
 .carrinho ul.subtitulos {
   display: flex;
   border-bottom: solid 2px #27AE60;
   list-style: none;
+  margin: 0 0 0 2vw;
 
 }
 
@@ -816,6 +847,100 @@ margin: 2vw;
 .carrinho div.totalCompra button:hover {
   transform: scale(1.1);
 }
+
+/*FAVORITOS*/
+.favoritos {
+  margin: 2vw 10vw;
+}
+
+.favoritos h2 {
+  color: #27AE60;
+  font-weight: bold;
+  font-size: 2.5rem;
+  margin: 5vw 4vw 1vw 3vw;
+  padding: 3vw 0;
+  border-bottom: solid 1px #27AE60 ;
+}
+
+.favoritos ul {
+  flex-wrap: wrap;
+  display: flex;
+  width: 100%;
+}
+
+.favoritos li {
+  width: 20%;
+  margin: 2vw 1vw 4vw 1vw;
+  list-style: none;
+  line-height: 0.7rem;
+}
+.favoritos li img {
+  width: 100%;
+  border-radius: 3px;
+}
+
+.favoritos li h3 {
+  font-size: 1.1rem;
+  line-height: 1rem;
+}
+
+.favoritos li div {
+  height: 12%;
+  justify-content: space-between;
+  display: flex;
+}
+
+.favoritos li p {
+  color: #4F4C57;
+}
+
+.favoritos .preco {
+  font-weight: bold;
+  color: black;
+  font-size: 1.1rem;
+
+}
+
+.favoritos .botaoCoracao {
+  border: none;
+  background-color: #FFFFFF;
+}
+
+.favoritos .coracaoVazio {
+  color: #27AE60;
+  font-size: 1.2rem;
+
+}
+
+.favoritos .coracaoVazio:hover {
+  transform: scale(1.15);
+}
+
+.favoritos .coracaoClique {
+  color: #27AE60;
+  font-size: 1.2rem;
+}
+
+.favoritos .coracaoClique:hover {
+  transform: scale(1.15);
+}
+
+.favoritos button.comprar {
+  background-color: #27AE60;
+  color: white;
+  border: none;
+  width: 100%;
+  height: 8%;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 1px;
+
+}
+
+.favoritos button.comprar:hover {
+  transform: scale(1.05);
+}
+
 
 /*FOOTER*/
 footer {
