@@ -123,8 +123,10 @@ const total = computed(() => {
           <h2>Apreço a leitura</h2>
         </div>
         <div class="pesquisa">
-          <p>Pesquisar</p>
-          <p class="icone"><span class="fa-solid fa-magnifying-glass"></span></p>
+          <form action="#" method="get">
+            <input class="pesquisar" type="text" name="pesquisar" id="pesquisar" placeholder="Pesquisar">
+            <button type="reset"><span class="fa-solid fa-magnifying-glass"></span></button>
+          </form>
         </div>
         <ul class="menu">
           <li><a href="#">Termos</a></li>
@@ -360,23 +362,32 @@ header nav div.logo h2 {
   width: 40%;
 }
 
-header nav div.pesquisa {
-  padding: 0 10px 0 0;
+header nav div.pesquisa form {
   background-color: #F1F1F1;
   width: 30%;
   display: flex;
   justify-content: space-between;
 }
 
-header nav div.pesquisa p {
+header nav div.pesquisa form input.pesquisar {
   font-size: 1rem;
-  color: #B8B8B8;
   text-align: left;
-  padding: 0 0 0 10px;
+  padding: 10px 150px 10px 10px;
+  border: none;
+  background-color: #F1F1F1;
+}
+header nav div.pesquisa form input.pesquisar:hover {
+  border: solid 1px black;
 }
 
-header nav div.pesquisa p.icone {
+header nav div.pesquisa form button {
   color: #231F2D;
+  border: none;
+  padding: 10px;
+}
+header nav div.pesquisa form button:hover {
+  font-weight: bold;
+  color: #27AE60;
 }
 
 header nav ul.menu {
@@ -393,9 +404,10 @@ header nav ul.menu li a {
   text-decoration: none;
 }
 
-header nav ul.menu li:hover {
-  transform: scale(1.1);
+header nav ul.menu li a:hover {
+  transform: scale(1.2);
   font-weight: bold;
+  color: #27AE60;
 }
 
 header nav ul.icones {
@@ -548,87 +560,80 @@ header nav ul.icones li.borda {
 }
 
 /*PRINCIPAL*/
-section.principal {
+.principal {
   border-bottom: solid 1px #27AE60;
 }
-
-section.principal div.dividir {
+.principal div.dividir {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 3vw 12vw;
 }
-
-section.principal div.texto {
+.principal div.texto {
   width: 50%;
 }
-
-section.principal div.dividir div.texto p.autor {
+.principal div.dividir div.texto p.autor {
   border: solid 1px #27AE60;
   color: #27AE60;
-  padding: 8px;
-  width: 14%;
+  padding: 11px;
+  width: 15%;
 }
-
-section.principal div.dividir div.texto h2 {
+.principal div.dividir div.texto h2 {
   font-size: 3.5rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-
-section.principal div.dividir div.texto p.texto {
+.principal div.dividir div.texto p.texto {
   font-size: 1.3rem;
   color: #4D4C4C;
   width: 74%;
   margin: 0 0 3vw 0;
+  line-height: 1.7rem;
 }
-
-section.principal div.dividir div.texto button {
+.principal div.dividir div.texto button {
   color: white;
   background-color: #27AE60;
   padding: 1vw 2vw;
   font-size: 1rem;
   border: none;
 }
-
-section.principal div.dividir div.texto button:hover {
+.principal div.dividir div.texto button:hover {
   transform: scale(1.1);
 
 }
-
-section.principal div.dividir div.imagem p.texto {
+.principal div.dividir div.imagem p.texto {
   text-align: right;
   color: #313131;
 }
-
-section.principal div.lista {
+.principal div.lista {
   border-top: solid 1px #27AE60;
 }
-
-section.principal div.lista ul {
+.principal div.lista ul {
   display: flex;
   justify-content: space-between;
   margin: 3vw 8vw;
   list-style: none;
 }
-
-section.principal div.lista ul li {
+.principal div.lista ul li {
   font-size: 1.7rem;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: space-between;
 }
+.principal div.lista ul li:hover {
+  color: #27AE60;
+}
 
-section.principal div.lista ul li.borda {
+.principal div.lista ul li.borda {
   border-left: solid 1px #937DC2;
   border-right: solid 1px #937DC2;
   padding: 0 8vw;
 }
 
-section.principal div.lista ul li p.underline {
+.principal div.lista ul li p.underline {
   text-decoration: underline;
 }
 
-section.principal div.lista ul li p {
+.principal div.lista ul li p {
   padding: 0 10px;
 }
 
