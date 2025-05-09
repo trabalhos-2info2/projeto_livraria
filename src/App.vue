@@ -249,19 +249,30 @@ const total = computed(() => {
           </ul>
         </div>
 
-        <div class="sectionCompra">
+        <div class="dividir">
+          <div class="compra">
           <button v-on:click="booleanoCarrinho = !booleanoCarrinho">Voltar para loja</button>
           <form action="#" method="get">
             <input class="cupom" type="text" name="cupom" id="cupom" placeholder="Código do cupom">
             <input class="confirmarCupom" type="reset" value="Inserir Cupom">
           </form>
-        </div>
-        <div class="totalCompra">
+          </div>
+          <div class="totalCompra">
           <h3>Total da Compra</h3>
-          <p>Preço: R${{ total.toFixed(2) }}</p>
-          <p>Frete: Grátis</p>
-          <p class="total-valor">Total: R${{ total.toFixed(2) }}</p>
+          <ul>
+            <li>Produtos:</li>
+            <li>R${{ total.toFixed(2) }}</li>
+          </ul>
+          <ul>
+            <li>Frete:</li>
+            <li>Grátis</li>
+          </ul>
+          <ul class="totalValor">
+            <li>Total:</li>
+            <li>R${{ total.toFixed(2) }}</li>
+          </ul>
           <button>Ir para o pagamento</button>
+          </div>
         </div>
 
       </section>
@@ -722,36 +733,83 @@ section.principal div.lista ul li p {
   font-weight: bold;
   margin: 5vw 0;
 }
-
-/*TOTAL COMPRA*/
-.carrinho div.sectionCompra {
-  margin: 3vw 2vw;
+/*DIV DIVIDIR*/
+.carrinho div.dividir {
+  display: flex;
+  justify-content: space-between;
 }
-
-.carrinho div.sectionCompra button {
+/*DIV COMPRA*/
+.carrinho div.compra {
+  margin: 3vw 2vw;
+  width: 50%;
+}
+.carrinho div.compra button {
   margin: 0 0 5vw 0;
-  padding: 20px 30px;
+  padding: 20px 60px;
   background-color: #FFFFFF;
   border: solid 1px #9a999a;
   font-size: 0.9rem;
   border-radius: 5px;
 }
-
-.carrinho div.sectionCompra form input.cupom {
+.carrinho div.compra button:hover {
+  transform: scale(1.1);
+}
+.carrinho div.compra form input.cupom {
   border: black solid 1px;
-  padding: 20px 30px;
+  padding: 20px 60px;
   border-radius: 5px;
   font-size: 0.9rem;
-  margin: 0 10px 0 0;
+  margin: 0 15px 0 0;
 }
 
-.carrinho div.sectionCompra form input.confirmarCupom {
+.carrinho div.compra form input.confirmarCupom {
   background-color: #27AE60;
   color: #FAFAFA;
   font-size: 0.9rem;
-  padding: 20px 30px;
+  padding: 20px 80px;
   border-radius: 5px;
   border: none;
+}
+.carrinho div.compra form input.confirmarCupom:hover {
+  transform: scale(1.1);
+}
+
+/*DIV TOTALCOMPRA*/
+.carrinho div.totalCompra {
+  text-align: left;
+  width: 30%;
+  border: black solid 1px;
+  padding: 0 50px;
+  margin: 11vw 0;
+}
+.carrinho div.totalCompra h3 {
+font-size: 1.3rem;
+margin: 2vw;
+}
+.carrinho div.totalCompra ul {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  border-bottom: solid 1px #9a999a;
+  margin: 0;
+}
+.carrinho div.totalCompra ul li {
+  margin: 1vw 1vw 1vw 0;
+}
+.carrinho div.totalCompra ul.totalValor {
+  border: none;
+  margin: 0;
+}
+.carrinho div.totalCompra button {
+  margin: 1vw 8vw 2vw 8vw;
+  border: none;
+  background-color: #27AE60;
+  color: #FFFFFF;
+  padding: 20px 30px;
+  border-radius: 5px;
+}
+.carrinho div.totalCompra button:hover {
+  transform: scale(1.1);
 }
 
 /*FOOTER*/
