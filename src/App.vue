@@ -63,6 +63,14 @@ const booleanoCarrinho = ref(true);
 const booleanoInicio = ref(true);
 const carrinho = ref([]);
 const quantidade = ref(1);
+const booleanoCoracao = ref();
+const produtosCurtidos = ref(new Set());
+
+const contadorCurtidos = computed(() => produtosCurtidos.value.size);
+
+const contadorCarrinho = computed(() => {
+  return carrinho.value.reduce((total, item) => total + item.quantidade, 0);
+});
 
 function adicionar(produto) {
   const posicaoProduto = carrinho.value.findIndex(item => item.produto.id === produto.id);
@@ -71,8 +79,18 @@ function adicionar(produto) {
   } else {
     carrinho.value.push({ produto, quantidade: quantidade.value });
   }
-  item.quantidade.value = 1;
+  quantidade.value = 1;
 }
+
+function cliqueCurtir(idProduto) {
+  if (produtosCurtidos.value.has(idProduto)) {
+    produtosCurtidos.value.delete(idProduto);
+  } else {
+    produtosCurtidos.value.add(idProduto);
+  }
+  
+}
+
 function incrementar(item) {
   item.quantidade++;
 }
@@ -87,7 +105,6 @@ function decrementar(item) {
     }
   }
 }
-
 const total = computed(() => {
   return carrinho.value.reduce((acc, item) => {
     return acc + item.quantidade * item.produto.preco;
@@ -98,36 +115,42 @@ const total = computed(() => {
 
 <template>
 
-<body>
-        <header>
-            <nav>
-              <div class="logo">
-                  <h1 v-on:click="booleanoInicio = !booleanoInicio"> <a href="#principal">IFBooks</a></h1>
-                  <h2>Apreço a leitura</h2>
-              </div>
-              <div class="pesquisa">
-                  <p>Pesquisar</p>
-                  <p class="icone"><span class="fa-solid fa-magnifying-glass"></span></p>
-              </div>
-                <ul class="menu">
-                    <li><a href="#">Termos</a></li>
-                    <li><a href="#">Equipe</a></li>
-                    <li><a href="#">Envio</a></li>
-                    <li><a href="#">Devoluções</a></li>
-                </ul>
-                <ul class="icones">
-                  <li><button v-on:click="booleanoCarrinho = !booleanoCarrinho">
-                    <span class="fa-solid fa-cart-shopping"></span>
-                  </button></li>
-                  <li class="borda"><button>
-                    <span class="fa-solid fa-heart"></span>
-                  </button></li>
-                  <li><button>
-                    <span class="fa-solid fa-user"></span>
-                  </button></li>
-                </ul>
-            </nav>
-        </header>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <h1 v-on:click="booleanoInicio = !booleanoInicio"> <a href="#principal">IFBooks</a></h1>
+          <h2>Apreço a leitura</h2>
+        </div>
+        <div class="pesquisa">
+          <p>Pesquisar</p>
+          <p class="icone"><span class="fa-solid fa-magnifying-glass"></span></p>
+        </div>
+        <ul class="menu">
+          <li><a href="#">Termos</a></li>
+          <li><a href="#">Equipe</a></li>
+          <li><a href="#">Envio</a></li>
+          <li><a href="#">Devoluções</a></li>
+        </ul>
+        <ul class="icones">
+          <li>
+            <button v-on:click="booleanoCarrinho = !booleanoCarrinho">
+              <span class="fa-solid fa-cart-shopping"></span>
+              <span v-if="contadorCarrinho > 0" class="contCarrinho">{{ contadorCarrinho }}</span>
+            </button>
+          </li>
+          <li class="borda">
+            <button>
+              <span class="fa-solid fa-heart"></span>
+              <span v-if="contadorCurtidos > 0" class="contCoracao">{{ contadorCurtidos }}</span>
+            </button>
+          </li>
+          <li><button>
+              <span class="fa-solid fa-user"></span>
+            </button></li>
+        </ul>
+      </nav>
+    </header>
 
     <main>
       <section id="principal" class="principal" v-if="booleanoCarrinho">
@@ -163,7 +186,7 @@ const total = computed(() => {
           </ul>
         </div>
       </section>
-      
+
       <section class="lancamentos" v-if="booleanoCarrinho">
         <h2>Lançamentos</h2>
         <ul>
@@ -173,9 +196,14 @@ const total = computed(() => {
             <p>{{ produto.autor }}</p>
             <div>
               <p class="preco">R${{ produto.preco }}</p>
-              <p class="coracao"><i class="fa-regular fa-heart"></i></p>
+              <button v-on:click="cliqueCurtir(produto.id)" class="botaoCoracao">
+                <p v-if="!produtosCurtidos.has(produto.id)" class="coracaoVazio"><span class="fa-regular fa-heart"></span>
+                </p>
+                <p v-else class="coracaoClique"><span class="fa-solid fa-heart"></span></p>
+              </button>
+
             </div>
-            <button v-on:click="adicionar(produto)">
+            <button v-on:click="adicionar(produto)" class="comprar">
               <span class="fa-solid fa-cart-shopping"></span> Comprar
             </button>
           </li>
@@ -183,42 +211,42 @@ const total = computed(() => {
       </section>
       <section class="carrinho" id="cart" v-else>
         <h2>Carrinho</h2>
-        <div>
+        <div class="listaProdutosCarrinho">
           <ul class="subtitulos">
             <li>
-              <p>Título</p>
+              <p class="tituloProduto">Título</p>
             </li>
             <li>
-              <p>Quantidade</p>
+              <p class="quantidadeProduto">Quantidade</p>
             </li>
             <li>
-              <p>Subtotal</p>
+              <p class="subtotalProduto">Subtotal</p>
             </li>
-            </ul>
-            <ul class="produtosCar">
-              <li v-for="item in carrinho" :key="item.produto.id">
-                <div class="livro">
+          </ul>
+          <ul class="produtosCar">
+            <li v-for="item in carrinho" :key="item.produto.id">
+              <div class="livro">
                 <div>
                   <img :src="item.produto.capa" :alt="item.produto.titulo" />
                 </div>
                 <div class="info">
                   <h3>{{ item.produto.titulo }}</h3>
-                  <p>{{ item.produto.autor }}</p>
+                  <p class="autor">{{ item.produto.autor }}</p>
                   <p class="preco">R${{ item.produto.preco }}</p>
                 </div>
               </div>
-                <div>
-                  <p class="quantidadeItens">
-                    <button v-on:click="incrementar(item)">+</button>
-                    {{ item.quantidade }}
-                    <button v-on:click="decrementar(item)">-</button> 
-                  </p>
-                </div>
-                <div>
-                  <p class="preco">R${{ (item.produto.preco * item.quantidade).toFixed(2) }}</p>
-                </div>
-              </li>
-            </ul>
+              <div>
+                <p class="quantidadeItens">
+                  <button v-on:click="incrementar(item)">+</button>
+                  {{ item.quantidade }}
+                  <button v-on:click="decrementar(item)">-</button>
+                </p>
+              </div>
+              <div>
+                <p class="precoTotal">R${{ (item.produto.preco * item.quantidade).toFixed(2) }}</p>
+              </div>
+            </li>
+          </ul>
         </div>
 
         <div class="dividir">
@@ -292,87 +320,102 @@ const total = computed(() => {
 
 <style scoped>
 /*HEADER*/
-  header nav {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0 15px 0;
-      border-bottom: solid 1px #27AE60;
-      align-items: center;
-      position: fixed;
-	    top: 0%;
-	    width: 100%;
-      background-color: #FFFFFF;
-    }
-    header nav div.logo {
-      display: flex;
-      align-items: center;
-      width: 10%;
-      margin: 0 0 0 10vw;
-    }
-    header nav div.logo h1 {
-      font-size: 1.2rem;
-      font-weight: normal;
-      padding: 0 5px 0 0;
-      border-right: 2px solid #27AE60;
-    }
-    header nav div.logo h1 a {
-      text-decoration: none;
-      color: #231F2D;
-    }
-    header nav div.logo h2 {
-      font-size: 0.8rem;
-      color: #27AE60;
-      font-weight: normal;
-      padding: 0 0 0 5px;
-      flex-wrap: wrap;
-      width: 40%;
-    }
-    header nav div.pesquisa {
-      padding: 0 10px 0 0;
-      background-color: #F1F1F1;
-      width: 30%;
-      display: flex;
-      justify-content: space-between;
-    }
-    header nav div.pesquisa p {
-      font-size: 1rem;
-      color: #B8B8B8;
-      text-align: left;
-      padding: 0 0 0 10px;
-    }
-    header nav div.pesquisa p.icone {
-      color: #231F2D;
-    }
-    header nav ul.menu {
-      display: flex;
-      justify-content: space-between;
-      width: 25%;
-      margin: 0 2vw 0 2vw;
-      list-style: none;
-    }
-    header nav ul.menu li a {
-      color: #7B7881;
-      text-decoration: none;
-    }
-    header nav ul.icones {
-      display: flex;
-      justify-content: space-between;
-      width: 10%;
-      margin: 0 10vw 0 0;
-    }
-    header nav ul.icones li button {
-      color: #27AE60;
-      border: none;
-      background-color: #FFFFFF;
-    }
-    header nav ul.icones li {
-      list-style: none;
-    }
-    header nav ul.icones li.borda {
-      border-left: solid 1px #27AE60;
-      border-right: solid 1px #27AE60;
-      padding: 0 25px;
-    }
+header nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0 15px 0;
+  border-bottom: solid 1px #27AE60;
+  align-items: center;
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  background-color: #FFFFFF;
+}
+
+header nav div.logo {
+  display: flex;
+  align-items: center;
+  width: 10%;
+  margin: 0 0 0 10vw;
+}
+
+header nav div.logo h1 {
+  font-size: 1.2rem;
+  font-weight: normal;
+  padding: 0 5px 0 0;
+  border-right: 2px solid #27AE60;
+}
+
+header nav div.logo h1 a {
+  text-decoration: none;
+  color: #231F2D;
+}
+
+header nav div.logo h2 {
+  font-size: 0.8rem;
+  color: #27AE60;
+  font-weight: normal;
+  padding: 0 0 0 5px;
+  flex-wrap: wrap;
+  width: 40%;
+}
+
+header nav div.pesquisa {
+  padding: 0 10px 0 0;
+  background-color: #F1F1F1;
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+header nav div.pesquisa p {
+  font-size: 1rem;
+  color: #B8B8B8;
+  text-align: left;
+  padding: 0 0 0 10px;
+}
+
+header nav div.pesquisa p.icone {
+  color: #231F2D;
+}
+
+header nav ul.menu {
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
+  margin: 0 2vw 0 2vw;
+  list-style: none;
+}
+
+header nav ul.menu li a {
+  color: #7B7881;
+  text-decoration: none;
+}
+
+header nav ul.icones {
+  display: flex;
+  justify-content: space-between;
+  width: 10%;
+  margin: 1vw 10vw 0 0;
+}
+
+header nav ul.icones li button {
+  color: #27AE60;
+  border: none;
+  margin: 0 1vw 0 0.5vw;
+  background-color: #FFFFFF;
+}
+
+header nav ul.icones li {
+  list-style: none;
+  
+}
+
+header nav ul.icones li.borda {
+  border-left: solid 1px #27AE60;
+  border-right: solid 1px #27AE60;
+  padding: 0 25px;
+}
 
 /*LANÇAMENTOS*/
 .lancamentos {
@@ -400,6 +443,7 @@ const total = computed(() => {
 
 .lancamentos li img {
   width: 100%;
+  border-radius: 3px;
 }
 
 .lancamentos li h3 {
@@ -424,12 +468,59 @@ const total = computed(() => {
 
 }
 
-.lancamentos .coracao {
+.lancamentos .botaoCoracao {
+  border: none;
+  background-color: #FFFFFF;
+}
+
+.contCoracao {
+  background-color: #27AE60;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 0 4px;
+  position: relative;
+  bottom: 25px;
+  left: 10px;
+  text-align: center;
+
+}
+
+.contCarrinho {
+  background-color: #27AE60;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 0 4px;
+  position: relative;
+  bottom: 25px;
+  left: 10px;
+  text-align: center;
+
+}
+
+.lancamentos .coracaoVazio {
+  color: #27AE60;
+  font-size: 1.2rem;
+
+}
+
+.lancamentos .coracaoVazio:hover {
+  transform: scale(1.15);
+}
+
+.lancamentos .coracaoClique {
   color: #27AE60;
   font-size: 1.2rem;
 }
 
-.lancamentos button {
+.lancamentos .coracaoClique:hover {
+  transform: scale(1.15);
+}
+
+.lancamentos button.comprar {
   background-color: #27AE60;
   color: white;
   border: none;
@@ -441,74 +532,89 @@ const total = computed(() => {
 
 }
 
+.lancamentos button.comprar:hover {
+  transform: scale(1.05);
+}
+
 /*PRINCIPAL*/
- section.principal {
-      border-bottom: solid 1px #27AE60;
-    }
-    section.principal div.dividir {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 3vw 12vw;
-    }
-    section.principal div.texto {
-      width: 50%;
-    }
-    section.principal div.dividir div.texto p.autor {
-      border: solid 1px #27AE60;
-      color: #27AE60;
-      padding: 8px;
-      width: 14%;
-    }
-    section.principal div.dividir div.texto h2 {
-      font-size: 3.5rem;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-    section.principal div.dividir div.texto p.texto {
-      font-size: 1.3rem;
-      color: #4D4C4C;
-      width: 74%;
-      margin: 0 0 3vw 0;
-    }
-    section.principal div.dividir div.texto button {
-      color: white;
-      background-color: #27AE60;
-      padding: 1vw 2vw;
-      font-size: 1rem;
-      border: none;
-    }
+section.principal {
+  border-bottom: solid 1px #27AE60;
+}
 
-    section.principal div.dividir div.imagem p.texto {
-      text-align: right;
-      color: #313131;
-    }
+section.principal div.dividir {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 3vw 12vw;
+}
 
-    section.principal div.lista {
-      border-top: solid 1px #27AE60;
-    }
-    section.principal div.lista ul {
-      display: flex;
-      justify-content: space-between;
-      margin: 3vw 8vw ;
-      list-style: none;
-    }
-    section.principal div.lista ul li {
-      font-size: 1.7rem;
-      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: space-between;
-    }
-    section.principal div.lista ul li.borda {
-      border-left: solid 1px #937DC2;
-      border-right: solid 1px #937DC2;
-      padding: 0 8vw;
-    }
-    section.principal div.lista ul li p.underline {
-      text-decoration: underline;
-    }
-    section.principal div.lista ul li p {
-      padding: 0 10px;
-    }
+section.principal div.texto {
+  width: 50%;
+}
+
+section.principal div.dividir div.texto p.autor {
+  border: solid 1px #27AE60;
+  color: #27AE60;
+  padding: 8px;
+  width: 14%;
+}
+
+section.principal div.dividir div.texto h2 {
+  font-size: 3.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+section.principal div.dividir div.texto p.texto {
+  font-size: 1.3rem;
+  color: #4D4C4C;
+  width: 74%;
+  margin: 0 0 3vw 0;
+}
+
+section.principal div.dividir div.texto button {
+  color: white;
+  background-color: #27AE60;
+  padding: 1vw 2vw;
+  font-size: 1rem;
+  border: none;
+}
+
+section.principal div.dividir div.imagem p.texto {
+  text-align: right;
+  color: #313131;
+}
+
+section.principal div.lista {
+  border-top: solid 1px #27AE60;
+}
+
+section.principal div.lista ul {
+  display: flex;
+  justify-content: space-between;
+  margin: 3vw 8vw;
+  list-style: none;
+}
+
+section.principal div.lista ul li {
+  font-size: 1.7rem;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+section.principal div.lista ul li.borda {
+  border-left: solid 1px #937DC2;
+  border-right: solid 1px #937DC2;
+  padding: 0 8vw;
+}
+
+section.principal div.lista ul li p.underline {
+  text-decoration: underline;
+}
+
+section.principal div.lista ul li p {
+  padding: 0 10px;
+}
 
 /*CARRINHO*/
 .carrinho {
@@ -517,32 +623,47 @@ const total = computed(() => {
 
 .carrinho h2 {
   color: #27AE60;
-  font-size: 1.6rem;
-  margin: 2vw;
+  font-size: 2.2rem;
+  margin: 10vw 0 3vw 2vw;
 }
 
-.carrinho ul.subtitulos{
+.carrinho ul.subtitulos {
   display: flex;
   border-bottom: solid 2px #27AE60;
   list-style: none;
-  
+
 }
 
 .carrinho ul.subtitulos li {
   font-size: 1.3rem;
   border: none;
-  margin: 0 33vw 0 0;
 
+}
+
+.carrinho ul.subtitulos li p.tituloProduto {
+  min-width: 48vw;
+}
+
+.carrinho ul.subtitulos li p.quantidadeProduto {
+  min-width: 25vw;
+}
+
+.carrinho div ul.produtosCar {
+  min-height: 20vw;
 }
 
 .carrinho div ul.produtosCar li {
   display: flex;
   padding: 1vw 0;
-  border-bottom: solid 2px #9a999a ;
-} 
+  border-bottom: solid 2px #9a999a;
+}
 
 .carrinho li p {
   font-size: 1.3rem;
+}
+
+.carrinho li .autor {
+  font-size: 1.1rem;
 }
 
 .carrinho li .livro {
@@ -552,19 +673,22 @@ const total = computed(() => {
 
 .carrinho li .info {
   text-align: left;
+  line-height: 0.8rem;
   flex-grow: 1;
-  margin: 0 13vw 3vw 2vw;
+  margin: 0 0 5vw 2vw;
+  min-width: 39vw;
 
 }
 
 .carrinho li div img {
-  width: 110px;
+  width: 120px;
+  border-radius: 3px;
   flex-shrink: 0;
 }
 
 .carrinho li p.preco {
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 
 .carrinho li h3 {
@@ -575,15 +699,23 @@ const total = computed(() => {
   background-color: #FFFFFF;
   border: none;
   font-size: 1.5rem;
+  margin: 0 0.4vw;
 }
 
 .carrinho p.quantidadeItens {
   border: solid 2px black;
-  padding: 0.5vw 1vw;
+  padding: 0.8vw 1vw;
   font-size: 1.5rem;
-  margin: 0 33vw 0 0;
-  
+  margin: 4vw 17vw 0 0;
+  border: solid 1px black;
 
+
+}
+
+.carrinho li p.precoTotal {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 5vw 0;
 }
 /*DIV DIVIDIR*/
 .carrinho div.dividir {
@@ -613,6 +745,7 @@ const total = computed(() => {
   font-size: 0.9rem;
   margin: 0 15px 0 0;
 }
+
 .carrinho div.compra form input.confirmarCupom {
   background-color: #27AE60;
   color: #FAFAFA;
