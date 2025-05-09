@@ -69,12 +69,10 @@ const curtidos = ref([]);
 const favoritos = computed(() => {
   return produtos.filter(produto => curtidos.value.includes(produto.id));
 });
-   
 
 const contadorCurtidos = computed(() => {
   return curtidos.value.length;
 });
-   
 
 const contadorCarrinho = computed(() => {
   return carrinho.value.reduce((total, item) => total + item.quantidade, 0);
@@ -98,7 +96,6 @@ function cliqueCurtir(idProduto) {
     curtidos.value.push(idProduto);
   }
 }
-   
 
 function incrementar(item) {
   item.quantidade++;
@@ -164,6 +161,7 @@ const total = computed(() => {
     </header>
 
     <main>
+
       <section id="principal" class="principal" v-if="!booleanoCarrinho && !booleanoFavoritos">
         <div class="dividir">
           <div class="texto">
@@ -219,6 +217,7 @@ const total = computed(() => {
           </li>
         </ul>
       </section>
+
       <section class="carrinho" id="cart" v-else-if="booleanoCarrinho">
         <h2>Carrinho</h2>
         <div class="listaProdutosCarrinho">
@@ -261,31 +260,31 @@ const total = computed(() => {
 
         <div class="dividir">
           <div class="compra">
-          <button v-on:click="booleanoCarrinho = !booleanoCarrinho">Voltar para loja</button>
-          <form action="#" method="get">
-            <input class="cupom" type="text" name="cupom" id="cupom" placeholder="Código do cupom">
-            <input class="confirmarCupom" type="reset" value="Inserir Cupom">
-          </form>
+            <button v-on:click="booleanoCarrinho = !booleanoCarrinho">Voltar para loja</button>
+            <form action="#" method="get">
+              <input class="cupom" type="text" name="cupom" id="cupom" placeholder="Código do cupom">
+              <input class="confirmarCupom" type="reset" value="Inserir Cupom">
+            </form>
           </div>
           <div class="totalCompra">
-          <h3>Total da Compra</h3>
-          <ul>
-            <li>Produtos:</li>
-            <li>R${{ total.toFixed(2) }}</li>
-          </ul>
-          <ul>
-            <li>Frete:</li>
-            <li>Grátis</li>
-          </ul>
-          <ul class="totalValor">
-            <li>Total:</li>
-            <li>R${{ total.toFixed(2) }}</li>
-          </ul>
-          <button>Ir para o pagamento</button>
+            <h3>Total da Compra</h3>
+            <ul>
+              <li>Produtos:</li>
+              <li>R${{ total.toFixed(2) }}</li>
+            </ul>
+            <ul>
+              <li>Frete:</li>
+              <li>Grátis</li>
+            </ul>
+            <ul class="totalValor">
+              <li>Total:</li>
+              <li>R${{ total.toFixed(2) }}</li>
+            </ul>
+            <button>Ir para o pagamento</button>
           </div>
         </div>
-
       </section>
+
       <section class="favoritos" v-else-if="booleanoFavoritos">
         <h2>Favoritos</h2>
         <ul>
@@ -306,9 +305,9 @@ const total = computed(() => {
             </button>
           </li>
         </ul>
-
       </section>
     </main>
+
     <footer v-if="booleanoCarrinho || !booleanoCarrinho">
       <div class="maior">
         <div>
@@ -406,6 +405,7 @@ header nav div.pesquisa form input.pesquisar {
   border: none;
   background-color: #F1F1F1;
 }
+
 header nav div.pesquisa form input.pesquisar:hover {
   border: solid 1px black;
 }
@@ -415,6 +415,7 @@ header nav div.pesquisa form button {
   border: none;
   padding: 10px;
 }
+
 header nav div.pesquisa form button:hover {
   font-weight: bold;
   color: #27AE60;
@@ -457,7 +458,7 @@ header nav ul.icones li button {
 
 header nav ul.icones li {
   list-style: none;
-   max-height: 1vw ;
+  max-height: 1vw;
 }
 
 header nav ul.icones li:hover {
@@ -470,9 +471,99 @@ header nav ul.icones li.borda {
   padding: 0 10px;
 }
 
+/*PRINCIPAL*/
+.principal {
+  border-bottom: solid 1px #27AE60;
+}
+
+.principal div.dividir {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 3vw 12vw;
+}
+
+.principal div.texto {
+  width: 50%;
+}
+
+.principal div.dividir div.texto p.autor {
+  border: solid 1px #27AE60;
+  color: #27AE60;
+  padding: 11px;
+  width: 15%;
+}
+
+.principal div.dividir div.texto h2 {
+  font-size: 3.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.principal div.dividir div.texto p.texto {
+  font-size: 1.3rem;
+  color: #4D4C4C;
+  width: 74%;
+  margin: 0 0 3vw 0;
+  line-height: 1.7rem;
+}
+
+.principal div.dividir div.texto button {
+  color: white;
+  background-color: #27AE60;
+  padding: 1vw 2vw;
+  font-size: 1rem;
+  border: none;
+}
+
+.principal div.dividir div.texto button:hover {
+  transform: scale(1.1);
+
+}
+
+.principal div.dividir div.imagem p.texto {
+  text-align: right;
+  color: #313131;
+}
+
+.principal div.lista {
+  border-top: solid 1px #27AE60;
+}
+
+.principal div.lista ul {
+  display: flex;
+  justify-content: space-between;
+  margin: 3vw 8vw;
+  list-style: none;
+}
+
+.principal div.lista ul li {
+  font-size: 1.7rem;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+.principal div.lista ul li:hover {
+  color: #27AE60;
+}
+
+.principal div.lista ul li.borda {
+  border-left: solid 1px #937DC2;
+  border-right: solid 1px #937DC2;
+  padding: 0 8vw;
+}
+
+.principal div.lista ul li p.underline {
+  text-decoration: underline;
+}
+
+.principal div.lista ul li p {
+  padding: 0 10px;
+}
+
 /*LANÇAMENTOS*/
 .lancamentos {
-  margin: 2vw 10vw;
+  margin: 2vw 8vw 2vw 12vw;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -551,13 +642,11 @@ header nav ul.icones li.borda {
   bottom: 1.9vw;
   left: 0.7vw;
   text-align: center;
-
 }
 
 .lancamentos .coracaoVazio {
   color: #27AE60;
   font-size: 1.2rem;
-
 }
 
 .lancamentos .coracaoVazio:hover {
@@ -587,84 +676,6 @@ header nav ul.icones li.borda {
 
 .lancamentos button.comprar:hover {
   transform: scale(1.05);
-}
-
-/*PRINCIPAL*/
-.principal {
-  border-bottom: solid 1px #27AE60;
-}
-.principal div.dividir {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 3vw 12vw;
-}
-.principal div.texto {
-  width: 50%;
-}
-.principal div.dividir div.texto p.autor {
-  border: solid 1px #27AE60;
-  color: #27AE60;
-  padding: 11px;
-  width: 15%;
-}
-.principal div.dividir div.texto h2 {
-  font-size: 3.5rem;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-.principal div.dividir div.texto p.texto {
-  font-size: 1.3rem;
-  color: #4D4C4C;
-  width: 74%;
-  margin: 0 0 3vw 0;
-  line-height: 1.7rem;
-}
-.principal div.dividir div.texto button {
-  color: white;
-  background-color: #27AE60;
-  padding: 1vw 2vw;
-  font-size: 1rem;
-  border: none;
-}
-.principal div.dividir div.texto button:hover {
-  transform: scale(1.1);
-
-}
-.principal div.dividir div.imagem p.texto {
-  text-align: right;
-  color: #313131;
-}
-.principal div.lista {
-  border-top: solid 1px #27AE60;
-}
-.principal div.lista ul {
-  display: flex;
-  justify-content: space-between;
-  margin: 3vw 8vw;
-  list-style: none;
-}
-.principal div.lista ul li {
-  font-size: 1.7rem;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  display: flex;
-  justify-content: space-between;
-}
-.principal div.lista ul li:hover {
-  color: #27AE60;
-}
-
-.principal div.lista ul li.borda {
-  border-left: solid 1px #937DC2;
-  border-right: solid 1px #937DC2;
-  padding: 0 8vw;
-}
-
-.principal div.lista ul li p.underline {
-  text-decoration: underline;
-}
-
-.principal div.lista ul li p {
-  padding: 0 10px;
 }
 
 /*CARRINHO*/
@@ -760,8 +771,6 @@ header nav ul.icones li.borda {
   font-size: 1.5rem;
   margin: 4vw 17vw 0 0;
   border: solid 1px black;
-
-
 }
 
 .carrinho li p.precoTotal {
@@ -769,16 +778,17 @@ header nav ul.icones li.borda {
   font-weight: bold;
   margin: 5vw 0;
 }
-/*DIV DIVIDIR*/
+
 .carrinho div.dividir {
   display: flex;
   justify-content: space-between;
 }
-/*DIV COMPRA*/
+
 .carrinho div.compra {
   margin: 3vw 2vw;
   width: 50%;
 }
+
 .carrinho div.compra button {
   margin: 0 0 5vw 0;
   padding: 20px 60px;
@@ -787,9 +797,11 @@ header nav ul.icones li.borda {
   font-size: 0.9rem;
   border-radius: 5px;
 }
+
 .carrinho div.compra button:hover {
   transform: scale(1.1);
 }
+
 .carrinho div.compra form input.cupom {
   border: black solid 1px;
   padding: 20px 60px;
@@ -806,11 +818,11 @@ header nav ul.icones li.borda {
   border-radius: 5px;
   border: none;
 }
+
 .carrinho div.compra form input.confirmarCupom:hover {
   transform: scale(1.1);
 }
 
-/*DIV TOTALCOMPRA*/
 .carrinho div.totalCompra {
   text-align: left;
   width: 30%;
@@ -818,10 +830,12 @@ header nav ul.icones li.borda {
   padding: 0 50px;
   margin: 11vw 0;
 }
+
 .carrinho div.totalCompra h3 {
-font-size: 1.3rem;
-margin: 2vw;
+  font-size: 1.3rem;
+  margin: 2vw;
 }
+
 .carrinho div.totalCompra ul {
   display: flex;
   justify-content: space-between;
@@ -829,13 +843,16 @@ margin: 2vw;
   border-bottom: solid 1px #9a999a;
   margin: 0;
 }
+
 .carrinho div.totalCompra ul li {
   margin: 1vw 1vw 1vw 0;
 }
+
 .carrinho div.totalCompra ul.totalValor {
   border: none;
   margin: 0;
 }
+
 .carrinho div.totalCompra button {
   margin: 1vw 8vw 2vw 8vw;
   border: none;
@@ -844,6 +861,7 @@ margin: 2vw;
   padding: 20px 30px;
   border-radius: 5px;
 }
+
 .carrinho div.totalCompra button:hover {
   transform: scale(1.1);
 }
@@ -851,6 +869,7 @@ margin: 2vw;
 /*FAVORITOS*/
 .favoritos {
   margin: 2vw 10vw;
+  min-height: 30vw;
 }
 
 .favoritos h2 {
@@ -859,7 +878,7 @@ margin: 2vw;
   font-size: 2.5rem;
   margin: 5vw 4vw 1vw 3vw;
   padding: 3vw 0;
-  border-bottom: solid 1px #27AE60 ;
+  border-bottom: solid 1px #27AE60;
 }
 
 .favoritos ul {
@@ -874,6 +893,7 @@ margin: 2vw;
   list-style: none;
   line-height: 0.7rem;
 }
+
 .favoritos li img {
   width: 100%;
   border-radius: 3px;
@@ -898,7 +918,6 @@ margin: 2vw;
   font-weight: bold;
   color: black;
   font-size: 1.1rem;
-
 }
 
 .favoritos .botaoCoracao {
