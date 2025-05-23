@@ -123,8 +123,8 @@ const total = computed(() => {
 
 <template>
   <HeaderComponent @click-cart="booleanoCarrinho  = !booleanoCarrinho"  @click-heart="booleanoFavoritos = !booleanoFavoritos"/>
-    <main>
 
+    <main v-if="!booleanoCarrinho">
       <section id="principal" class="principal" v-if="!booleanoCarrinho && !booleanoFavoritos">
         <div class="dividir">
           <div class="texto">
@@ -180,8 +180,10 @@ const total = computed(() => {
           </li>
         </ul>
       </section>
+    </main>
 
-      <section class="carrinho" id="cart" v-else-if="booleanoCarrinho">
+    <main v-else>
+      <section class="carrinho" id="cart">
         <h2>Carrinho</h2>
         <div class="listaProdutosCarrinho">
           <ul class="subtitulos">
@@ -248,7 +250,7 @@ const total = computed(() => {
         </div>
       </section>
 
-      <section class="favoritos" v-else-if="booleanoFavoritos">
+      <section class="favoritos">
         <h2>Favoritos</h2>
         <ul>
           <li v-for="item in favoritos" :key="item.id">
