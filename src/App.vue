@@ -1,6 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue';
 
+import HeaderComponent from './components/HeaderComponent.vue'
+import FooterComponent from './components/FooterComponent.vue'
+import PrincipalComponent from './components/PrincipalComponent.vue'
+
 const produtos = [
   {
     id: 1,
@@ -120,81 +124,10 @@ const total = computed(() => {
 </script>
 
 <template>
+  <HeaderComponent @click-cart="booleanoCarrinho  = !booleanoCarrinho"  @click-heart="booleanoFavoritos = !booleanoFavoritos"/>
 
-  <div>
-    <header>
-      <nav>
-        <div class="logo">
-          <h1 v-on:click="booleanoInicio = !booleanoInicio"> <a href="#principal">IFBooks</a></h1>
-          <h2>Apreço a leitura</h2>
-        </div>
-        <div class="pesquisa">
-          <form action="#" method="get">
-            <input class="pesquisar" type="text" name="pesquisar" id="pesquisar" placeholder="Pesquisar">
-            <button type="reset"><span class="fa-solid fa-magnifying-glass"></span></button>
-          </form>
-        </div>
-        <ul class="menu">
-          <li><a href="#">Termos</a></li>
-          <li><a href="#">Equipe</a></li>
-          <li><a href="#">Envio</a></li>
-          <li><a href="#">Devoluções</a></li>
-        </ul>
-        <ul class="icones">
-          <li>
-            <button v-on:click="booleanoCarrinho = !booleanoCarrinho">
-              <span class="fa-solid fa-cart-shopping"></span>
-              <span v-if="contadorCarrinho > 0" class="contCarrinho">{{ contadorCarrinho }}</span>
-            </button>
-          </li>
-          <li class="borda">
-            <button v-on:click="booleanoFavoritos = !booleanoFavoritos">
-              <span class="fa-solid fa-heart"></span>
-              <span v-if="contadorCurtidos > 0" class="contCoracao">{{ contadorCurtidos }}</span>
-            </button>
-          </li>
-          <li><button>
-              <span class="fa-solid fa-user"></span>
-            </button></li>
-        </ul>
-      </nav>
-    </header>
-
-    <main>
-
-      <section id="principal" class="principal" v-if="!booleanoCarrinho && !booleanoFavoritos">
-        <div class="dividir">
-          <div class="texto">
-            <p class="autor">Autor de Abril</p>
-            <h2>Eric-Emanuel Schmitt</h2>
-            <p class="texto">Eric-Emmanuel Schmitt has been awarded more than 20 literary prizes and distinctions, and
-              in 2001 he received the title of Chevalier des Arts et des Lettres. His books have been translated into
-              over 40 languages.</p>
-            <button>Acessar página do livro</button>
-          </div>
-          <div class="imagem">
-            <p class="img"><img src="/src/livro_principal.png" alt="Imagem livro Noc Ognia"></p>
-            <p class="texto">*within the stock limit</p>
-          </div>
-        </div>
-
-        <div class="lista">
-          <ul>
-            <li>
-              <p><span class="fa-solid fa-truck"></span></p>
-              <p>Frete grátis para SC</p>
-            </li>
-            <li class="borda">
-              <p><span class="fa-solid fa-star"></span></p>
-              <p>Livros recomendados</p>
-            </li>
-            <li>
-              <p><span class="fa-solid fa-book-open"></span></p>
-              <p class="underline">Mais vendidos</p>
-            </li>
-          </ul>
-        </div>
-      </section>
+    <main v-if="!booleanoCarrinho">
+      <PrincipalComponent />
 
       <section class="lancamentos" v-if="!booleanoCarrinho && !booleanoFavoritos">
         <h2>Lançamentos</h2>
@@ -217,8 +150,10 @@ const total = computed(() => {
           </li>
         </ul>
       </section>
+    </main>
 
-      <section class="carrinho" id="cart" v-else-if="booleanoCarrinho">
+    <main v-else>
+      <section class="carrinho" id="cart">
         <h2>Carrinho</h2>
         <div class="listaProdutosCarrinho">
           <ul class="subtitulos">
@@ -285,7 +220,7 @@ const total = computed(() => {
         </div>
       </section>
 
-      <section class="favoritos" v-else-if="booleanoFavoritos">
+      <section class="favoritos">
         <h2>Favoritos</h2>
         <ul>
           <li v-for="item in favoritos" :key="item.id">
@@ -307,259 +242,14 @@ const total = computed(() => {
         </ul>
       </section>
     </main>
-
-    <footer v-if="booleanoCarrinho || !booleanoCarrinho">
-      <div class="maior">
-        <div>
-          <p class="ifbooks">IFbooks</p>
-          <ul>
-            <li><a href="https://facebook.com.br"><span class="fa-brands fa-square-facebook"></span></a></li>
-            <li><a href="https://instagram.com.br"><span class="fa-brands fa-square-instagram"></span></a></li>
-            <li><a href="https://twitter.com.br"><span class="fa-brands fa-square-twitter"></span></a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Contato</h3>
-          <ul class="contato">
-            <li>
-              <p><span class="fa-solid fa-phone"></span> +55 47 40045263</p>
-            </li>
-            <li>
-              <p><span class="fa-solid fa-clock"></span> 8h às 23h - Seg a Sex</p>
-            </li>
-            <li>
-              <p><span class="fa-solid fa-envelope"></span> contato@ifbooks.com</p>
-            </li>
-          </ul>
-          <ul class="pagamentos">
-            <li>
-              <img src="\src\paypal-card-logo.png" alt="Paypal">
-            </li>
-            <li>
-              <img src="\src\masterCard-logo.png" alt="MasterCard">
-            </li>
-            <li>
-              <img src="\src\visa-card-logo.png" alt="Visa">
-            </li>
-          </ul>
-        </div>
-      </div>
-      <p class="direitos">© Alguns direitos reservados. IFbooks 2025. </p>
-    </footer>
-  </div>
+    <FooterComponent></FooterComponent>
 </template>
 
 <style scoped>
 /*HEADER*/
-header nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0 15px 0;
-  border-bottom: solid 1px #27AE60;
-  align-items: center;
-  position: fixed;
-  top: 0%;
-  width: 100%;
-  background-color: #FFFFFF;
-}
 
-header nav div.logo {
-  display: flex;
-  align-items: center;
-  width: 10%;
-  margin: 0 0 0 10vw;
-}
-
-header nav div.logo h1 {
-  font-size: 1.2rem;
-  font-weight: normal;
-  padding: 0 5px 0 0;
-  border-right: 2px solid #27AE60;
-}
-
-header nav div.logo h1 a {
-  text-decoration: none;
-  color: #231F2D;
-}
-
-header nav div.logo h2 {
-  font-size: 0.8rem;
-  color: #27AE60;
-  font-weight: normal;
-  padding: 0 0 0 5px;
-  flex-wrap: wrap;
-  width: 40%;
-}
-
-header nav div.pesquisa form {
-  background-color: #F1F1F1;
-  width: 30%;
-  display: flex;
-  justify-content: space-between;
-}
-
-header nav div.pesquisa form input.pesquisar {
-  font-size: 1rem;
-  text-align: left;
-  padding: 10px 150px 10px 10px;
-  border: none;
-  background-color: #F1F1F1;
-}
-
-header nav div.pesquisa form input.pesquisar:hover {
-  border: solid 1px black;
-}
-
-header nav div.pesquisa form button {
-  color: #231F2D;
-  border: none;
-  padding: 10px;
-}
-
-header nav div.pesquisa form button:hover {
-  font-weight: bold;
-  color: #27AE60;
-}
-
-header nav ul.menu {
-  display: flex;
-  justify-content: space-between;
-  width: 25%;
-  margin: 0 2vw 0 2vw;
-  list-style: none;
-  align-items: center;
-}
-
-header nav ul.menu li a {
-  color: #7B7881;
-  text-decoration: none;
-}
-
-header nav ul.menu li a:hover {
-  transform: scale(1.2);
-  font-weight: bold;
-  color: #27AE60;
-}
-
-header nav ul.icones {
-  display: flex;
-  justify-content: space-between;
-  width: 10%;
-  margin: 0 10vw 0 0;
-}
-
-header nav ul.icones li button {
-  color: #27AE60;
-  border: none;
-  margin: 0 1vw 0 1vw;
-  background-color: #FFFFFF;
-  font-size: 1.1vw;
-}
-
-header nav ul.icones li {
-  list-style: none;
-  max-height: 1vw;
-}
-
-header nav ul.icones li:hover {
-  transform: scale(1.1);
-}
-
-header nav ul.icones li.borda {
-  border-left: solid 1px #27AE60;
-  border-right: solid 1px #27AE60;
-  padding: 0 10px;
-}
 
 /*PRINCIPAL*/
-.principal {
-  border-bottom: solid 1px #27AE60;
-}
-
-.principal div.dividir {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 3vw 12vw;
-}
-
-.principal div.texto {
-  width: 50%;
-}
-
-.principal div.dividir div.texto p.autor {
-  border: solid 1px #27AE60;
-  color: #27AE60;
-  padding: 11px;
-  width: 15%;
-}
-
-.principal div.dividir div.texto h2 {
-  font-size: 3.5rem;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.principal div.dividir div.texto p.texto {
-  font-size: 1.3rem;
-  color: #4D4C4C;
-  width: 74%;
-  margin: 0 0 3vw 0;
-  line-height: 1.7rem;
-}
-
-.principal div.dividir div.texto button {
-  color: white;
-  background-color: #27AE60;
-  padding: 1vw 2vw;
-  font-size: 1rem;
-  border: none;
-}
-
-.principal div.dividir div.texto button:hover {
-  transform: scale(1.1);
-
-}
-
-.principal div.dividir div.imagem p.texto {
-  text-align: right;
-  color: #313131;
-}
-
-.principal div.lista {
-  border-top: solid 1px #27AE60;
-}
-
-.principal div.lista ul {
-  display: flex;
-  justify-content: space-between;
-  margin: 3vw 8vw;
-  list-style: none;
-}
-
-.principal div.lista ul li {
-  font-size: 1.7rem;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  display: flex;
-  justify-content: space-between;
-}
-
-.principal div.lista ul li:hover {
-  color: #27AE60;
-}
-
-.principal div.lista ul li.borda {
-  border-left: solid 1px #937DC2;
-  border-right: solid 1px #937DC2;
-  padding: 0 8vw;
-}
-
-.principal div.lista ul li p.underline {
-  text-decoration: underline;
-}
-
-.principal div.lista ul li p {
-  padding: 0 10px;
-}
 
 /*LANÇAMENTOS*/
 .lancamentos {
@@ -958,71 +648,5 @@ header nav ul.icones li.borda {
 
 .favoritos button.comprar:hover {
   transform: scale(1.05);
-}
-
-
-/*FOOTER*/
-footer {
-  background-color: #27AE60;
-  padding: 3vw 0 0 0;
-
-}
-
-footer .maior {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 10vw;
-}
-
-footer .ifbooks {
-  color: white;
-  margin: 0 3vw;
-
-}
-
-footer div ul {
-  display: flex;
-  list-style: none;
-  width: 5%;
-  justify-content: space-between;
-}
-
-footer div ul li a {
-  color: white;
-  font-size: 2vw;
-  margin: 0.5vw;
-}
-
-footer h3 {
-  font-size: 1rem;
-  color: white;
-  margin: 0 2vw;
-
-}
-
-footer .contato {
-  display: block;
-  width: 100%;
-  line-height: 1.5rem;
-  margin: 0 0 4vw 0;
-
-}
-
-footer .contato li {
-  width: 100%;
-  color: white;
-}
-
-footer .pagamentos ul {
-  display: flex;
-
-}
-
-footer .direitos {
-  text-align: center;
-  color: #FFFFFF;
-  opacity: 60%;
-  padding: 1vw;
-  border-top: solid 1px #FFFFFF;
 }
 </style>
