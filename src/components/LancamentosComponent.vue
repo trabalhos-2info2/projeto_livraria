@@ -1,6 +1,13 @@
 <script setup>
 const props = defineProps(['produtos', 'curtidos']);
 const emit = defineEmits(['adicionar-carrinho', 'clique-curtir']);
+
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
+function openBook(id) {
+  router.push({ name: 'Book', params: { id } });
+}
 </script>
 
 <template>
@@ -8,7 +15,7 @@ const emit = defineEmits(['adicionar-carrinho', 'clique-curtir']);
         <h2>Lançamentos</h2>
         <ul>
           <li v-for="produto in produtos" :key="produto.id">
-            <img :src="produto.capa" :alt="produto.titulo" />
+            <img :src="book.cover" :alt="book.title" @click="openBook(book.id)" />
             <h3>{{ produto.titulo }}</h3>
             <p>{{ produto.autor }}</p>
             <div>
