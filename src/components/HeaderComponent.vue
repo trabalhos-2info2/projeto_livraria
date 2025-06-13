@@ -1,5 +1,8 @@
 <script setup>
+import { useCartStore } from "@/stores/cart";
 defineEmits(['click-cart', 'click-heart'])
+
+const cartStore = useCartStore();
 
 </script>
 <template>
@@ -27,7 +30,7 @@ defineEmits(['click-cart', 'click-heart'])
         </ul>
         <ul class="icones">
           <li>
-            <button  @click="$emit('click-cart')">
+            <button @click="cartStore.showCart = !cartStore.showCart">
               <span class="fa-solid fa-cart-shopping"></span>
               <span v-if="contadorCarrinho > 0" class="contCarrinho">{{ contadorCarrinho }}</span>
             </button>
