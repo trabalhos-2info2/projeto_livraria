@@ -6,7 +6,11 @@ defineEmits(['click-cart', 'click-heart'])
     <header>
       <nav>
         <div class="logo">
-          <h1 v-on:click="booleanoInicio = !booleanoInicio"> <a href="#principal">IFBooks</a></h1>
+          <h1 v-on:click="booleanoInicio = !booleanoInicio">
+            <RouterLink to="/">
+              IFbooks
+            </RouterLink>
+          </h1>
           <h2>Apreço a leitura</h2>
         </div>
         <div class="pesquisa">
@@ -17,7 +21,7 @@ defineEmits(['click-cart', 'click-heart'])
         </div>
         <ul class="menu">
           <li><a href="#">Termos</a></li>
-          <li><a href="#">Equipe</a></li>
+          <li><RouterLink to="/equipe">Equipe</RouterLink></li>
           <li><a href="#">Envio</a></li>
           <li><a href="#">Devoluções</a></li>
         </ul>
