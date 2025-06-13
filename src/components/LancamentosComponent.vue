@@ -15,7 +15,7 @@ function openBook(id) {
         <h2>Lançamentos</h2>
         <ul>
           <li v-for="produto in produtos" :key="produto.id">
-            <img :src="book.cover" :alt="book.title" @click="openBook(book.id)" />
+            <img :src="produto.capa" :alt="produto.titulo" @click="openBook(produto.id)" />
             <h3>{{ produto.titulo }}</h3>
             <p>{{ produto.autor }}</p>
             <div>
